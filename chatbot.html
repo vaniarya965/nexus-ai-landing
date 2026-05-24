@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chatbot — NEXUS Academy</title>
+    <title>AI Doubts Chatbot — NEXUS Academy</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88;
             --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08);
-            --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
+            --glow-blue: 0 0 20px rgba(0,240,255,0.4); --msg-user: rgba(0,240,255,0.1); --msg-bot: rgba(179,71,255,0.1); }
         body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; height: 100vh; display: flex; flex-direction: column; }
         .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
         .bg-grid::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px; }
+
         nav { position: fixed; top:0; left:0; right:0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
             background: linear-gradient(to bottom, rgba(5,5,8,0.95), transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
         .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px; }
@@ -26,23 +27,40 @@
             font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
         .btn:hover { transform: translateY(-2px); }
 
-        .chat-wrap { flex: 1; display: flex; flex-direction: column; max-width: 800px; width: 100%; margin: 80px auto 0; padding: 20px; position: relative; z-index: 2; }
-        .chat-box { flex: 1; overflow-y: auto; padding: 16px; border: 1px solid var(--glass-border); border-radius: 16px; background: var(--card-bg); backdrop-filter: blur(15px); }
-        .msg { margin-bottom: 12px; display: flex; }
-        .msg.user { justify-content: flex-end; }
-        .msg.bot { justify-content: flex-start; }
-        .msg-bubble { max-width: 70%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.5; }
-        .msg.user .msg-bubble { background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); color: #000; border-bottom-right-radius: 4px; }
-        .msg.bot .msg-bubble { background: var(--glass-bg); border: 1px solid var(--glass-border); color: #fff; border-bottom-left-radius: 4px; }
-        .input-row { display: flex; gap: 10px; margin-top: 12px; }
-        .input-row input { flex: 1; padding: 14px 18px; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 12px; color: #fff; font-family: 'Inter'; font-size: 1rem; outline: none; }
-        .input-row input:focus { border-color: var(--neon-blue); }
-        .input-row button { padding: 14px 24px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 12px; color: #000; font-family: 'Orbitron'; font-weight: 700; cursor: pointer; }
-        .typing { color: var(--neon-silver); font-size: 0.8rem; font-style: italic; padding-left: 8px; }
+        .chat-wrap { flex: 1; display: flex; flex-direction: column; max-width: 900px; margin: 0 auto; width: 100%; padding: 100px 20px 20px; position: relative; z-index: 2; }
+        .chat-header { text-align: center; margin-bottom: 20px; padding: 20px 0; }
+        .chat-header h2 { font-family: 'Orbitron'; font-size: 1.4rem; color: var(--neon-blue); margin-bottom: 4px; }
+        .chat-header p { color: var(--neon-silver); font-size: 0.85rem; }
 
-        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 30px 40px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; position: relative; z-index: 2; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px 0; display: flex; flex-direction: column; gap: 16px; }
+        .msg { max-width: 80%; padding: 14px 18px; border-radius: 16px; font-size: 0.95rem; line-height: 1.6; animation: msgIn 0.3s ease; }
+        .msg.user { align-self: flex-end; background: var(--msg-user); border: 1px solid rgba(0,240,255,0.2); color: #fff; border-bottom-right-radius: 4px; }
+        .msg.bot { align-self: flex-start; background: var(--msg-bot); border: 1px solid rgba(179,71,255,0.2); color: #fff; border-bottom-left-radius: 4px; }
+        .msg .label { font-size: 0.7rem; font-family: 'Orbitron'; color: var(--neon-blue); margin-bottom: 4px; }
+        @keyframes msgIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; } }
 
-        @media(max-width:768px) { .nav-links { display: none; } .chat-wrap { padding: 10px; margin-top: 70px; } }
+        .quick-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; padding: 0 4px; }
+        .chip { padding: 8px 16px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; color: var(--neon-silver);
+            font-size: 0.8rem; cursor: pointer; transition: all 0.3s; }
+        .chip:hover { border-color: var(--neon-blue); color: var(--neon-blue); background: rgba(0,240,255,0.05); }
+
+        .chat-input-wrap { display: flex; gap: 10px; padding: 16px; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; backdrop-filter: blur(15px); }
+        .chat-input { flex: 1; padding: 12px 16px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px;
+            color: #fff; font-family: 'Inter'; font-size: 0.95rem; outline: none; }
+        .chat-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0,240,255,0.1); }
+        .chat-input::placeholder { color: var(--neon-silver); opacity: 0.5; }
+        .send-btn { padding: 12px 24px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 12px; color: #000;
+            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; }
+        .send-btn:hover { transform: translateY(-2px); }
+        .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .typing { display: flex; gap: 4px; padding: 12px 16px; }
+        .typing span { width: 8px; height: 8px; background: var(--neon-purple); border-radius: 50%; animation: typing 1.4s infinite; }
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing { 0%,100% { opacity:0.3; transform: scale(1); } 50% { opacity:1; transform: scale(1.2); } }
+
+        @media(max-width:768px) { .nav-links { display: none; } .chat-wrap { padding: 80px 12px 12px; } .msg { max-width: 90%; } }
     </style>
 </head>
 <body>
@@ -53,7 +71,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="courses.html">Courses</a></li>
-            <li><a href="startup.html">Startup Resources</a></li>
+            <li><a href="startup.html">Startup</a></li>
             <li><a href="community.html">Community</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">My Dashboard</a></li>
@@ -61,47 +79,96 @@
     </nav>
 
     <div class="chat-wrap">
-        <div class="chat-box" id="chatBox">
-            <div class="msg bot"><div class="msg-bubble">Hi! I am NEXUS AI. I can help you find free courses, startup tools, resume tips, and answer questions. What would you like to learn today?</div></div>
+        <div class="chat-header">
+            <h2>🤖 NEXUS AI Assistant</h2>
+            <p>Ask anything about AI, coding, startups, courses, or career guidance</p>
         </div>
-        <div class="input-row">
-            <input type="text" id="chatInput" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendMsg()">
-            <button onclick="sendMsg()">Send</button>
+        <div class="quick-chips">
+            <span class="chip" onclick="sendChip('What is AI?')">What is AI?</span>
+            <span class="chip" onclick="sendChip('How to start coding?')">How to start coding?</span>
+            <span class="chip" onclick="sendChip('Best free Python course')">Best free Python course</span>
+            <span class="chip" onclick="sendChip('How to validate a startup idea?')">Validate startup idea</span>
+            <span class="chip" onclick="sendChip('How to build a resume?')">Build a resume</span>
+            <span class="chip" onclick="sendChip('Funding stages explained')">Funding stages</span>
+        </div>
+        <div class="chat-messages" id="chatBox">
+            <div class="msg bot">
+                <div class="label">NEXUS AI</div>
+                Hello! I am your AI learning assistant. Ask me about courses, career paths, coding doubts, startup questions, or anything tech-related. I will guide you to the right free resources!
+            </div>
+        </div>
+        <div class="chat-input-wrap">
+            <input type="text" class="chat-input" id="userInput" placeholder="Type your question..." onkeypress="if(event.key==='Enter')sendMsg()">
+            <button class="send-btn" id="sendBtn" onclick="sendMsg()">Send</button>
         </div>
     </div>
 
-    <div class="footer">NEXUS AI Chat — Simulated responses based on free resources curated by NEXUS Academy.</div>
-
     <script>
-    const replies = {
-        'course': 'Great free courses: AI for Everyone (Coursera), fast.ai Practical Deep Learning, The Odin Project (web dev), and Khan Academy (math + finance).',
-        'python': 'Start with freeCodeCamp Python full course (6 hours on YouTube) or Harvard CS50P. Both are completely free.',
-        'startup': 'Use the YC Pitch Deck template, build a Lean Canvas, and validate with 20 customer interviews before raising. See our Startup Resources page.',
-        'resume': 'Use our Resume Builder page! It creates a clean, ATS-friendly HTML resume you can download instantly.',
-        'funding': 'Apply to Y Combinator, Techstars, or 500 Startups. Gust and AngelList are free platforms to find investors.',
-        'mentor': 'Visit the Community page and browse our mentor directory. You can request a session directly.',
-        'hello': 'Hello! I am NEXUS AI. Ask me about courses, tools, startup tips, resume help, or anything else.',
-        'hi': 'Hi there! How can I help you today?',
-        'help': 'I can help with: free courses, startup resources, resume building, funding guides, and finding mentors. What do you need?',
-        'default': 'I am still learning! Try asking about courses, Python, startup tips, resume help, or funding. Or visit our Courses and Startup pages for more.'
+    const knowledge = {
+        'ai': "AI (Artificial Intelligence) is the simulation of human intelligence by machines. Start with Andrew Ng's 'AI For Everyone' on Coursera (free audit) or fast.ai's Practical Deep Learning. Check our courses page for more!",
+        'coding': "Start with Python! The best free course is freeCodeCamp's 6-hour Python tutorial on YouTube. For web development, try The Odin Project. Both are completely free. See courses.html for all options.",
+        'python': "freeCodeCamp's Python Full Course (6 hours, YouTube) is the best starting point. After basics, try fast.ai for AI with Python or The Odin Project for web dev. All linked in our Courses page.",
+        'startup': "Start with Y Combinator's 'How to Start a Startup' course (free). Then use our Business Model Canvas and Lean Canvas templates. Validate your idea by talking to 10 potential customers before building. See startup.html for tools.",
+        'funding': "Bootstrapping → Pre-seed (angels/accelerators) → Seed ($250K-$5M) → Series A+ ($5M+). Check our Startup Funding Guide at startup-funding.html for a full roadmap with real platforms and templates.",
+        'resume': "Use our free Resume Builder at resume.html. Fill your details, add projects from our Projects list, and print as PDF. Key tip: quantify achievements (e.g., 'Built app used by 500+ users').",
+        'career': "For tech careers: 1) Build a portfolio (GitHub + deployed projects) 2) Optimize LinkedIn 3) Practice mock interviews on Pramp.com 4) Apply via AI-Jobs.net. Our dashboard tracks your progress!",
+        'help': "I can help with: AI/ML questions, coding doubts (Python, JS, SQL), startup guidance, funding info, resume building, career advice, and course recommendations. Just ask!",
     };
+
+    function addMsg(text, isUser) {
+        const box = document.getElementById('chatBox');
+        const msg = document.createElement('div');
+        msg.className = 'msg ' + (isUser ? 'user' : 'bot');
+        msg.innerHTML = isUser ? text : `<div class="label">NEXUS AI</div>${text}`;
+        box.appendChild(msg);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function showTyping() {
+        const box = document.getElementById('chatBox');
+        const typing = document.createElement('div');
+        typing.className = 'msg bot typing'; typing.id = 'typing';
+        typing.innerHTML = '<span></span><span></span><span></span>';
+        box.appendChild(typing);
+        box.scrollTop = box.scrollHeight;
+        return typing;
+    }
+
+    function sendChip(text) { document.getElementById('userInput').value = text; sendMsg(); }
+
     function sendMsg() {
-        const input = document.getElementById('chatInput');
+        const input = document.getElementById('userInput');
         const text = input.value.trim();
         if (!text) return;
-        const box = document.getElementById('chatBox');
-        box.innerHTML += `<div class="msg user"><div class="msg-bubble">${escapeHtml(text)}</div></div>`;
+        addMsg(text, true);
         input.value = '';
-        box.scrollTop = box.scrollHeight;
-        const typing = document.createElement('div'); typing.className = 'typing'; typing.textContent = 'NEXUS AI is typing...'; box.appendChild(typing); box.scrollTop = box.scrollHeight;
+
+        const btn = document.getElementById('sendBtn');
+        btn.disabled = true;
+        const typing = showTyping();
+
         setTimeout(() => {
             typing.remove();
-            const key = Object.keys(replies).find(k => text.toLowerCase().includes(k)) || 'default';
-            box.innerHTML += `<div class="msg bot"><div class="msg-bubble">${replies[key]}</div></div>`;
-            box.scrollTop = box.scrollHeight;
-        }, 800 + Math.random() * 800);
+            const reply = getReply(text);
+            addMsg(reply, false);
+            btn.disabled = false;
+        }, 800 + Math.random() * 600);
     }
-    function escapeHtml(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    function getReply(text) {
+        const lower = text.toLowerCase();
+        for (const key in knowledge) {
+            if (lower.includes(key)) return knowledge[key];
+        }
+        if (lower.includes('hello') || lower.includes('hi')) return "Hello! I'm here to help with your learning journey. Ask me about AI, coding, startups, careers, or courses!";
+        if (lower.includes('thank')) return "You're welcome! Keep learning and building. Check out our dashboard to track your progress! 🚀";
+        if (lower.includes('course') || lower.includes('learn')) return "We have 50+ free courses curated from Harvard, Google, YC, fast.ai, and more. Visit courses.html to browse by category (AI, Coding, Business, Marketing, Finance).";
+        if (lower.includes('project')) return "Great idea! Try our project ideas: 1) Portfolio Website 2) AI Chatbot 3) Data Analysis Dashboard 4) Startup Landing Page. Track them in your dashboard!";
+        if (lower.includes('mentor')) return "Connect with mentors in our Community section. We have AI engineers, startup founders, and marketing pros ready to help. Visit community.html#mentors.";
+        if (lower.includes('quiz') || lower.includes('test')) return "Test your knowledge in your Dashboard! We have quizzes on AI Basics, Python, and Startup Fundamentals. Scores are saved automatically.";
+        if (lower.includes('dark') || lower.includes('theme')) return "Dark mode is our default! We designed NEXUS Academy with a dark futuristic theme to reduce eye strain during long study sessions. 🌙";
+        return "That's a great question! While I'm still learning, I recommend checking our Courses page or asking in the Community Forum where mentors and peers can help. You can also email us at vanishree965@gmail.com for specific questions.";
+    }
     </script>
 </body>
 </html>

@@ -36,35 +36,30 @@
             background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
 
-        .builder-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1100px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 2; }
-        @media(max-width:900px){ .builder-wrap { grid-template-columns: 1fr; } }
-        .editor { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; }
+        .builder-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; position: relative; z-index: 2; }
+        .form-panel { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; backdrop-filter: blur(15px); }
+        .form-panel h3 { font-family: 'Orbitron'; font-size: 1rem; color: var(--neon-blue); margin-bottom: 20px; }
         .field { margin-bottom: 16px; }
         .field label { display: block; color: var(--neon-silver); font-size: 0.75rem; margin-bottom: 6px; font-family: 'Orbitron'; letter-spacing: 1px; }
         .field input, .field textarea { width: 100%; padding: 12px 16px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px;
-            color: #fff; font-family: 'Inter'; font-size: 0.95rem; outline: none; }
-        .field input:focus, .field textarea:focus { border-color: var(--neon-blue); }
-        .field textarea { min-height: 60px; resize: vertical; }
-        .preview { background: #fff; color: #111; padding: 32px; border-radius: 10px; min-height: 500px; font-family: 'Inter',sans-serif; }
-        .preview h2 { font-family: 'Orbitron'; font-size: 1.4rem; color: #111; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-bottom: 12px; }
-        .preview p { font-size: 0.9rem; line-height: 1.6; color: #333; margin-bottom: 6px; }
-        .preview ul { margin-left: 18px; font-size: 0.85rem; color: #444; }
-        .preview li { margin-bottom: 4px; }
-        .preview .section { margin-bottom: 20px; }
+            color: #fff; font-family: 'Inter'; font-size: 0.9rem; outline: none; transition: all 0.3s; }
+        .field input:focus, .field textarea:focus { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0,240,255,0.1); }
+        .field textarea { min-height: 80px; resize: vertical; }
+        .add-btn { padding: 8px 16px; background: transparent; border: 1px dashed var(--glass-border); border-radius: 8px; color: var(--neon-silver);
+            font-size: 0.8rem; cursor: pointer; transition: all 0.3s; margin-top: 8px; }
+        .add-btn:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
 
-        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
-        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
-        .f-logo { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); margin-bottom: 10px; }
-        .f-logo span { color: var(--neon-purple); font-size: 0.8rem; }
-        .f-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.8; opacity: 0.7; max-width: 280px; }
-        .f-title { font-family: 'Orbitron'; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 16px; }
-        .f-links { list-style: none; }
-        .f-links li { margin-bottom: 10px; }
-        .f-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
-        .f-links a:hover { color: var(--neon-blue); }
-        .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
+        .preview-panel { background: #fff; border-radius: 16px; padding: 40px; color: #111; font-family: 'Inter'; }
+        .preview-panel h2 { font-family: 'Orbitron'; font-size: 1.8rem; color: #000; margin-bottom: 4px; }
+        .preview-panel .title { color: #555; font-size: 0.95rem; margin-bottom: 16px; }
+        .preview-panel .contact-line { color: #666; font-size: 0.8rem; margin-bottom: 20px; }
+        .preview-panel h4 { font-family: 'Orbitron'; font-size: 0.85rem; color: #000; border-bottom: 2px solid #000; padding-bottom: 4px; margin: 20px 0 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .preview-panel p { font-size: 0.85rem; line-height: 1.6; color: #333; margin-bottom: 8px; }
+        .preview-panel .item-title { font-weight: 700; font-size: 0.9rem; color: #000; }
+        .preview-panel .item-meta { color: #666; font-size: 0.8rem; }
 
-        @media(max-width:768px) { .nav-links { display: none; } .builder-wrap { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
+        @media(max-width:900px) { .builder-wrap { grid-template-columns: 1fr; } }
+        @media(max-width:768px) { .nav-links { display: none; } .page-head { padding: 100px 20px 30px; } .builder-wrap { padding: 0 20px 40px; } }
     </style>
 </head>
 <body>
@@ -75,7 +70,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="courses.html">Courses</a></li>
-            <li><a href="startup.html">Startup Resources</a></li>
+            <li><a href="startup.html">Startup</a></li>
             <li><a href="community.html">Community</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">My Dashboard</a></li>
@@ -83,78 +78,139 @@
     </nav>
 
     <div class="page-head">
-        <span class="sec-label">Build</span>
+        <span class="sec-label">Tool</span>
         <h1 class="sec-title">Resume Builder</h1>
-        <p class="sec-desc">Create a clean, ATS-friendly resume in minutes. Fill the form on the left, preview and download on the right. No sign-up needed.</p>
-    </div>
-
-    <div style="text-align:center;margin-bottom:24px;position:relative;z-index:2;">
-        <button class="btn" onclick="downloadHTML()">⬇ Download HTML Resume</button>
+        <p class="sec-desc">Fill in your details below. The preview updates live. Print or save as PDF when ready.</p>
     </div>
 
     <div class="builder-wrap">
-        <div class="editor">
-            <div class="field"><label>Name</label><input id="rName" value="Your Name" oninput="updatePreview()"></div>
-            <div class="field"><label>Title / Role</label><input id="rTitle" value="Aspiring AI Engineer / Entrepreneur" oninput="updatePreview()"></div>
-            <div class="field"><label>Email</label><input id="rEmail" value="you@email.com" oninput="updatePreview()"></div>
-            <div class="field"><label>Phone</label><input id="rPhone" value="+1 234 567 8900" oninput="updatePreview()"></div>
-            <div class="field"><label>LinkedIn / Portfolio</label><input id="rLink" value="linkedin.com/in/yourname" oninput="updatePreview()"></div>
-            <div class="field"><label>Summary</label><textarea id="rSummary" oninput="updatePreview()">Motivated self-learner with hands-on experience in AI, web development, and entrepreneurship. Completed multiple free courses from Coursera, fast.ai, and The Odin Project.</textarea></div>
-            <div class="field"><label>Skills (comma separated)</label><input id="rSkills" value="Python, JavaScript, React, Machine Learning, Data Analysis, Business Strategy, SEO" oninput="updatePreview()"></div>
-            <div class="field"><label>Experience (one per line)</label><textarea id="rExp" oninput="updatePreview()">• Built a sales dashboard with Python and Streamlit (open source)
-• Completed AI for Everyone (Coursera) and fast.ai Practical Deep Learning
-• Launched a small e-commerce side project using Shopify free trial</textarea></div>
-            <div class="field"><label>Education</label><textarea id="rEdu" oninput="updatePreview()">Self-taught via NEXUS Academy free resources
-Relevant coursework: Python, Machine Learning, Web Development, Digital Marketing</textarea></div>
-            <div class="field"><label>Projects (one per line)</label><textarea id="rProj" oninput="updatePreview()">• AI Chatbot — Python + OpenAI API for customer support
-• Portfolio Website — HTML/CSS deployed on GitHub Pages
-• Sales Analytics Dashboard — Python, pandas, Streamlit</textarea></div>
+        <div class="form-panel">
+            <h3>📝 Your Details</h3>
+            <div class="field"><label>Full Name</label><input type="text" id="rName" placeholder="John Doe" oninput="updatePreview()"></div>
+            <div class="field"><label>Job Title</label><input type="text" id="rTitle" placeholder="Full Stack Developer" oninput="updatePreview()"></div>
+            <div class="field"><label>Email</label><input type="text" id="rEmail" placeholder="john@email.com" oninput="updatePreview()"></div>
+            <div class="field"><label>Phone</label><input type="text" id="rPhone" placeholder="+1 234 567 890" oninput="updatePreview()"></div>
+            <div class="field"><label>Location</label><input type="text" id="rLocation" placeholder="San Francisco, CA" oninput="updatePreview()"></div>
+            <div class="field"><label>LinkedIn / Portfolio</label><input type="text" id="rLink" placeholder="linkedin.com/in/johndoe" oninput="updatePreview()"></div>
+            <div class="field"><label>Summary</label><textarea id="rSummary" placeholder="Brief professional summary..." oninput="updatePreview()"></textarea></div>
+            <h3 style="margin-top:24px;">💼 Experience</h3>
+            <div id="expFields"></div>
+            <button class="add-btn" onclick="addExp()">+ Add Experience</button>
+            <h3 style="margin-top:24px;">🎓 Education</h3>
+            <div id="eduFields"></div>
+            <button class="add-btn" onclick="addEdu()">+ Add Education</button>
+            <h3 style="margin-top:24px;">🛠️ Skills</h3>
+            <div class="field"><input type="text" id="rSkills" placeholder="Python, React, AI, Data Analysis..." oninput="updatePreview()"></div>
+            <h3 style="margin-top:24px;">📁 Projects</h3>
+            <div id="projFields"></div>
+            <button class="add-btn" onclick="addProj()">+ Add Project</button>
+            <div style="margin-top:24px;display:flex;gap:10px;">
+                <button class="btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+                <button class="btn-sec" onclick="saveResume()">💾 Save to Local</button>
+            </div>
         </div>
-        <div class="preview" id="preview"></div>
+        <div class="preview-panel" id="preview">
+            <h2 id="pName">Your Name</h2>
+            <div class="title" id="pTitle">Job Title</div>
+            <div class="contact-line" id="pContact">email | phone | location | link</div>
+            <h4>Summary</h4>
+            <p id="pSummary">Your professional summary will appear here...</p>
+            <h4>Experience</h4>
+            <div id="pExp"></div>
+            <h4>Education</h4>
+            <div id="pEdu"></div>
+            <h4>Skills</h4>
+            <p id="pSkills">Skills will appear here...</p>
+            <h4>Projects</h4>
+            <div id="pProj"></div>
+        </div>
     </div>
 
-    <footer class="footer">
-        <div class="f-grid">
-            <div><div class="f-logo">NEXUS <span>Academy</span></div><p class="f-desc">Free AI and tech education hub. Curating the best free resources from the world's top platforms.</p></div>
-            <div><div class="f-title">Learn</div><ul class="f-links"><li><a href="courses.html">Courses</a></li><li><a href="startup.html">Startup Tools</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
-            <div><div class="f-title">Community</div><ul class="f-links"><li><a href="community.html">Forum</a></li><li><a href="community.html#mentors">Mentors</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-            <div><div class="f-title">Info</div><ul class="f-links"><li><a href="about.html">About Us</a></li><li><a href="https://github.com/vaniarya965/nexus-ai-landing" target="_blank">GitHub</a></li></ul></div>
-        </div>
-        <div class="f-bot">© 2026 NEXUS Academy. Built to help people learn for free.</div>
-    </footer>
-
     <script>
-    function updatePreview() {
-        const name = document.getElementById('rName').value;
-        const title = document.getElementById('rTitle').value;
-        const email = document.getElementById('rEmail').value;
-        const phone = document.getElementById('rPhone').value;
-        const link = document.getElementById('rLink').value;
-        const summary = document.getElementById('rSummary').value.replace(/\n/g,'<br>');
-        const skills = document.getElementById('rSkills').value.split(',').map(s=>s.trim()).filter(Boolean).join(' • ');
-        const exp = document.getElementById('rExp').value.split('\n').filter(Boolean).map(l => `<p>${l}</p>`).join('');
-        const edu = document.getElementById('rEdu').value.replace(/\n/g,'<br>');
-        const proj = document.getElementById('rProj').value.split('\n').filter(Boolean).map(l => `<p>${l}</p>`).join('');
-
-        document.getElementById('preview').innerHTML = `
-            <div class="section">
-                <h2>${name}</h2>
-                <p><strong>${title}</strong></p>
-                <p>${email} | ${phone} | ${link}</p>
+    let expCount=0, eduCount=0, projCount=0;
+    function addExp() {
+        const id = ++expCount;
+        document.getElementById('expFields').insertAdjacentHTML('beforeend', `
+            <div class="field" id="exp${id}">
+                <input type="text" placeholder="Job Title @ Company" id="expT${id}" oninput="updatePreview()" style="margin-bottom:6px;">
+                <input type="text" placeholder="Dates (e.g. Jan 2022 - Present)" id="expD${id}" oninput="updatePreview()" style="margin-bottom:6px;">
+                <textarea placeholder="Key achievements and responsibilities..." id="expB${id}" oninput="updatePreview()"></textarea>
             </div>
-            <div class="section"><h3 style="font-size:1.1rem;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:8px;">Summary</h3><p>${summary}</p></div>
-            <div class="section"><h3 style="font-size:1.1rem;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:8px;">Skills</h3><p>${skills}</p></div>
-            <div class="section"><h3 style="font-size:1.1rem;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:8px;">Experience</h3>${exp}</div>
-            <div class="section"><h3 style="font-size:1.1rem;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:8px;">Education</h3><p>${edu}</p></div>
-            <div class="section"><h3 style="font-size:1.1rem;border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:8px;">Projects</h3>${proj}</div>
-        `;
+        `);
     }
-    function downloadHTML() {
-        const blob = new Blob([`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Resume</title><style>body{font-family:Inter,sans-serif;max-width:700px;margin:40px auto;color:#111;line-height:1.6}h2{font-size:1.6rem;border-bottom:2px solid #eee;padding-bottom:8px}h3{font-size:1.1rem;border-bottom:1px solid #eee;padding-bottom:4px;margin-top:16px}p{margin-bottom:6px}</style></head><body>${document.getElementById('preview').innerHTML}</body></html>`], {type:'text/html'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = 'resume.html'; a.click(); URL.revokeObjectURL(url);
+    function addEdu() {
+        const id = ++eduCount;
+        document.getElementById('eduFields').insertAdjacentHTML('beforeend', `
+            <div class="field" id="edu${id}">
+                <input type="text" placeholder="Degree, University" id="eduT${id}" oninput="updatePreview()" style="margin-bottom:6px;">
+                <input type="text" placeholder="Dates" id="eduD${id}" oninput="updatePreview()">
+            </div>
+        `);
     }
-    updatePreview();
+    function addProj() {
+        const id = ++projCount;
+        document.getElementById('projFields').insertAdjacentHTML('beforeend', `
+            <div class="field" id="proj${id}">
+                <input type="text" placeholder="Project Name" id="projT${id}" oninput="updatePreview()" style="margin-bottom:6px;">
+                <textarea placeholder="Description, tech stack, link..." id="projB${id}" oninput="updatePreview()"></textarea>
+            </div>
+        `);
+    }
+    function updatePreview() {
+        document.getElementById('pName').textContent = document.getElementById('rName').value || 'Your Name';
+        document.getElementById('pTitle').textContent = document.getElementById('rTitle').value || 'Job Title';
+        const contact = [document.getElementById('rEmail').value, document.getElementById('rPhone').value, document.getElementById('rLocation').value, document.getElementById('rLink').value].filter(Boolean).join(' | ');
+        document.getElementById('pContact').textContent = contact || 'email | phone | location | link';
+        document.getElementById('pSummary').textContent = document.getElementById('rSummary').value || 'Your professional summary will appear here...';
+        document.getElementById('pSkills').textContent = document.getElementById('rSkills').value || 'Skills will appear here...';
+
+        let expHtml = '';
+        for(let i=1;i<=expCount;i++) {
+            const t = document.getElementById('expT'+i)?.value;
+            const d = document.getElementById('expD'+i)?.value;
+            const b = document.getElementById('expB'+i)?.value;
+            if(t) expHtml += `<div style="margin-bottom:12px;"><div class="item-title">${t}</div><div class="item-meta">${d}</div><p>${b}</p></div>`;
+        }
+        document.getElementById('pExp').innerHTML = expHtml || '<p style="color:#999;">Add experience on the left...</p>';
+
+        let eduHtml = '';
+        for(let i=1;i<=eduCount;i++) {
+            const t = document.getElementById('eduT'+i)?.value;
+            const d = document.getElementById('eduD'+i)?.value;
+            if(t) eduHtml += `<div style="margin-bottom:8px;"><div class="item-title">${t}</div><div class="item-meta">${d}</div></div>`;
+        }
+        document.getElementById('pEdu').innerHTML = eduHtml || '<p style="color:#999;">Add education on the left...</p>';
+
+        let projHtml = '';
+        for(let i=1;i<=projCount;i++) {
+            const t = document.getElementById('projT'+i)?.value;
+            const b = document.getElementById('projB'+i)?.value;
+            if(t) projHtml += `<div style="margin-bottom:12px;"><div class="item-title">${t}</div><p>${b}</p></div>`;
+        }
+        document.getElementById('pProj').innerHTML = projHtml || '<p style="color:#999;">Add projects on the left...</p>';
+    }
+    function saveResume() {
+        const data = { name: document.getElementById('rName').value, title: document.getElementById('rTitle').value,
+            email: document.getElementById('rEmail').value, phone: document.getElementById('rPhone').value,
+            location: document.getElementById('rLocation').value, link: document.getElementById('rLink').value,
+            summary: document.getElementById('rSummary').value, skills: document.getElementById('rSkills').value };
+        localStorage.setItem('nexus_resume', JSON.stringify(data));
+        alert('Resume saved to browser! It will be here when you return.');
+    }
+    function loadResume() {
+        const data = JSON.parse(localStorage.getItem('nexus_resume') || '{}');
+        if(data.name) document.getElementById('rName').value = data.name;
+        if(data.title) document.getElementById('rTitle').value = data.title;
+        if(data.email) document.getElementById('rEmail').value = data.email;
+        if(data.phone) document.getElementById('rPhone').value = data.phone;
+        if(data.location) document.getElementById('rLocation').value = data.location;
+        if(data.link) document.getElementById('rLink').value = data.link;
+        if(data.summary) document.getElementById('rSummary').value = data.summary;
+        if(data.skills) document.getElementById('rSkills').value = data.skills;
+        updatePreview();
+    }
+    addExp(); addEdu(); addProj();
+    loadResume();
     </script>
 </body>
 </html>

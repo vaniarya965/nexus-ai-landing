@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community — NEXUS Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88;
+            --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08);
+            --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
+        body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
+        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
+        .bg-grid::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px; }
+        nav { position: fixed; top:0; left:0; right:0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,8,0.95), transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px; }
+        .logo span { color: var(--neon-purple); font-size: 0.85rem; }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--neon-blue); transition: width 0.3s; }
+        .nav-links a:hover { color: var(--neon-blue); }
+        .nav-links a:hover::after { width: 100%; }
+        .btn { padding: 12px 28px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 50px; color: #000;
+            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-sec { padding: 12px 28px; background: transparent; border: 1px solid var(--glass-border); border-radius: 50px; color: var(--neon-silver);
+            font-family: 'Orbitron'; font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn-sec:hover { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: var(--glow-blue); }
+
+        .page-head { padding: 140px 40px 40px; text-align: center; position: relative; z-index: 2; }
+        .sec-label { display: inline-block; padding: 6px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px;
+            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+        .sec-title { font-family: 'Orbitron'; font-size: clamp(2rem,4vw,3rem); font-weight: 800; margin-bottom: 12px;
+            background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
+
+        .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+        .tab-btn { padding: 10px 22px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px; color: var(--neon-silver);
+            font-family: 'Inter'; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; }
+        .tab-btn:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+        .tab-btn.active { background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); color: #000; border-color: transparent; font-weight: 600; }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 2; }
+        .card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; transition: all 0.3s;
+            backdrop-filter: blur(15px); text-decoration: none; color: inherit; display: block; }
+        .card:hover { transform: translateY(-5px); border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
+        .c-icon { width: 44px; height: 44px; background: linear-gradient(135deg,rgba(0,240,255,0.2),rgba(179,71,255,0.2));
+            border: 1px solid rgba(0,240,255,0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; margin-bottom: 16px; box-shadow: 0 0 12px rgba(0,240,255,0.15); }
+        .c-title { font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: 1px; }
+        .c-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
+        .c-meta { display: flex; gap: 12px; margin-top: 14px; font-size: 0.7rem; color: var(--neon-blue); font-family: 'Orbitron'; }
+        .c-link { color: var(--neon-cyan); font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 1px; margin-top: 12px; display: inline-block; }
+
+        .forum-post { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; margin-bottom: 16px; position: relative; z-index: 2; }
+        .forum-post h4 { font-size: 1rem; color: #fff; margin-bottom: 8px; }
+        .forum-post p { color: var(--neon-silver); font-size: 0.9rem; line-height: 1.6; }
+        .forum-meta { display: flex; gap: 16px; margin-top: 12px; font-size: 0.75rem; color: var(--neon-silver); opacity: 0.6; }
+        .forum-input { width: 100%; padding: 14px 18px; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 12px;
+            color: #fff; font-family: 'Inter'; font-size: 0.95rem; outline: none; margin-bottom: 10px; }
+        .forum-input:focus { border-color: var(--neon-blue); }
+        .forum-box { max-width: 800px; margin: 0 auto 30px; padding: 0 40px; position: relative; z-index: 2; }
+        .tab-content { display: none; animation: fade 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fade { from { opacity:0; transform: translateY(10px); } to { opacity:1; } }
+
+        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+        .f-logo { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); margin-bottom: 10px; }
+        .f-logo span { color: var(--neon-purple); font-size: 0.8rem; }
+        .f-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.8; opacity: 0.7; max-width: 280px; }
+        .f-title { font-family: 'Orbitron'; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 16px; }
+        .f-links { list-style: none; }
+        .f-links li { margin-bottom: 10px; }
+        .f-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
+        .f-links a:hover { color: var(--neon-blue); }
+        .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
+
+        @media(max-width:768px) { .nav-links { display: none; } .cards-grid { padding: 0 20px; } .forum-box { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <nav>
+        <div class="logo">NEXUS <span>Academy</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="startup.html">Startup Resources</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">My Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-head">
+        <span class="sec-label">Connect</span>
+        <h1 class="sec-title">Community & Forum</h1>
+        <p class="sec-desc">Ask questions, share projects, find mentors. Join discussions on AI, coding, startups, and career growth. All free.</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('forum')">💬 Discussion Forum</button>
+        <button class="tab-btn" onclick="showTab('mentors')">👨‍🏫 Mentors</button>
+        <button class="tab-btn" onclick="showTab('showcase')">🏆 Show & Tell</button>
+    </div>
+
+    <div id="forum" class="tab-content active">
+        <div class="forum-box">
+            <input type="text" class="forum-input" id="fTitle" placeholder="Post title...">
+            <textarea class="forum-input" id="fBody" placeholder="Share your question, idea, or project..." style="min-height:80px;resize:vertical;"></textarea>
+            <button class="btn" style="padding:10px 24px;font-size:0.8rem;" onclick="postForum()">📤 Post to Forum</button>
+        </div>
+        <div id="forumPosts"></div>
+    </div>
+
+    <div id="mentors" class="tab-content">
+        <div class="cards-grid" id="mentorsGrid"></div>
+    </div>
+
+    <div id="showcase" class="tab-content">
+        <div class="forum-box" style="text-align:center;padding:40px;">
+            <div class="c-icon" style="margin:0 auto 16px;">🏆</div>
+            <h3 style="font-family:'Orbitron';color:#fff;margin-bottom:12px;">Show & Tell</h3>
+            <p style="color:var(--neon-silver);margin-bottom:20px;">Share your projects, get feedback, find collaborators, and get hired.</p>
+            <button class="btn" style="padding:10px 24px;font-size:0.8rem;" onclick="alert('Coming soon: Upload your project and showcase it to the community!')">📤 Share Your Project</button>
+        </div>
+        <div class="cards-grid" style="max-width:800px;margin:0 auto;">
+            <div class="card">
+                <div class="c-icon">🌐</div>
+                <div class="c-title">Portfolio Website by Priya S.</div>
+                <div class="c-desc">Built with HTML/CSS after completing The Odin Project. Deployed on GitHub Pages. Looking for frontend roles.</div>
+                <div class="c-meta">💻 Frontend | 🟢 Open to work</div>
+            </div>
+            <div class="card">
+                <div class="c-icon">🤖</div>
+                <div class="c-title">AI Chatbot by Rahul M.</div>
+                <div class="c-desc">Python + OpenAI API chatbot for customer service. Trained on custom data. Open source on GitHub.</div>
+                <div class="c-meta">🐍 Python | 🤖 OpenAI API</div>
+            </div>
+            <div class="card">
+                <div class="c-icon">📊</div>
+                <div class="c-title">Sales Dashboard by Alex K.</div>
+                <div class="c-desc">Data visualization dashboard built with Python/pandas and Streamlit. Analyzes e-commerce sales trends.</div>
+                <div class="c-meta">📊 Data Analytics | 🐍 Python</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="f-grid">
+            <div><div class="f-logo">NEXUS <span>Academy</span></div><p class="f-desc">Free AI and tech education hub. Curating the best free resources from the world's top platforms.</p></div>
+            <div><div class="f-title">Learn</div><ul class="f-links"><li><a href="courses.html">Courses</a></li><li><a href="startup.html">Startup Tools</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+            <div><div class="f-title">Community</div><ul class="f-links"><li><a href="community.html">Forum</a></li><li><a href="community.html#mentors">Mentors</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div><div class="f-title">Info</div><ul class="f-links"><li><a href="about.html">About Us</a></li><li><a href="https://github.com/vaniarya965/nexus-ai-landing" target="_blank">GitHub</a></li></ul></div>
+        </div>
+        <div class="f-bot">© 2026 NEXUS Academy. Built to help people learn for free.</div>
+    </footer>
+
+    <script>
+    const samplePosts = [
+        { title: 'Best free AI course for beginners?', body: 'I want to learn AI but have zero coding background. Which course should I start with? I saw fast.ai and Coursera mentioned.', author: 'Rahul M.', date: '2 hours ago', replies: 3 },
+        { title: 'Built my first website using The Odin Project!', body: 'Just deployed my portfolio to GitHub Pages. It took 2 weeks but I learned so much HTML, CSS, and Git.', author: 'Priya S.', date: '5 hours ago', replies: 7 },
+        { title: 'Startup idea validation help needed', body: 'I have an idea for an AI-powered tutoring app. How do I validate this before building? Any frameworks?', author: 'Alex K.', date: '1 day ago', replies: 12 },
+        { title: 'Is fast.ai too advanced for beginners?', body: 'I started fast.ai but got lost in the second lesson. Should I do a Python basics course first?', author: 'Maria G.', date: '2 days ago', replies: 5 },
+    ];
+
+    const mentors = [
+        { name: 'Dr. Arun Patel', role: 'Senior ML Engineer @ Google', desc: '10+ years in AI. Helps with Python, ML, career transitions. Ex-CMU professor.', avail: '💬 Available', icon: '👨‍💻' },
+        { name: 'Sarah Chen', role: 'Ex-YC Founder, 2x Exit', desc: 'Built and sold 2 startups. Reviews pitch decks, business models, and go-to-market strategies.', avail: '💬 Available', icon: '👩‍💼' },
+        { name: 'James Wilson', role: 'Head of Growth @ Series B Startup', desc: 'Grew startups from 0 to 100K users. SEO, content marketing, paid acquisition expert.', avail: '⏳ Busy this week', icon: '👨‍💼' },
+        { name: 'Anita Sharma', role: 'VC Associate @ Sequoia', desc: 'Reviews financial models, cap tables, fundraising strategy, and investor outreach.', avail: '💬 Available', icon: '👩‍💻' },
+        { name: 'Carlos Mendez', role: 'Lead Developer @ Netflix', desc: 'Full-stack expert. Specializes in React, Node.js, cloud architecture, and system design.', avail: '💬 Available', icon: '👨‍💻' },
+        { name: 'Emma Watson', role: 'Freelance AI Consultant', desc: 'Builds AI solutions for SMEs. Prompt engineering, automation, and AI strategy for non-tech founders.', avail: '⏳ Limited slots', icon: '👩‍💼' },
+    ];
+
+    function renderForum() {
+        const container = document.getElementById('forumPosts');
+        const posts = JSON.parse(localStorage.getItem('nexus_forum') || '[]');
+        const all = [...posts, ...samplePosts];
+        container.innerHTML = all.map(p => `
+            <div class="forum-post">
+                <h4>${p.title}</h4>
+                <p>${p.body}</p>
+                <div class="forum-meta">
+                    <span>👤 ${p.author}</span>
+                    <span>🕐 ${p.date}</span>
+                    <span>💬 ${p.replies || 0} replies</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function postForum() {
+        const title = document.getElementById('fTitle').value.trim();
+        const body = document.getElementById('fBody').value.trim();
+        if (!title || !body) return alert('Please fill in both title and body');
+        const posts = JSON.parse(localStorage.getItem('nexus_forum') || '[]');
+        posts.unshift({ title, body, author: 'You', date: 'Just now', replies: 0 });
+        localStorage.setItem('nexus_forum', JSON.stringify(posts));
+        document.getElementById('fTitle').value = '';
+        document.getElementById('fBody').value = '';
+        renderForum();
+    }
+
+    function renderMentors() {
+        document.getElementById('mentorsGrid').innerHTML = mentors.map(m => `
+            <div class="card">
+                <div class="c-icon">${m.icon}</div>
+                <div class="c-title">${m.name}</div>
+                <div class="c-desc">${m.role}<br><br>${m.desc}</div>
+                <div class="c-meta">${m.avail}</div>
+                <button class="btn" style="margin-top:12px;padding:10px 20px;font-size:0.75rem;" onclick="alert('Mentor request sent! They will reply to your email within 48 hours.')">💬 Request Session</button>
+            </div>
+        `).join('');
+    }
+
+    function showTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.getElementById(tab).classList.add('active');
+    }
+
+    renderForum();
+    renderMentors();
+    </script>
+</body>
+</html>

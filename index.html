@@ -3,666 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS Academy — Master AI & Tech Skills</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>NEXUS Academy — Free AI & Tech Learning Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        
         :root {
-            --neon-blue: #00f0ff;
-            --neon-purple: #b347ff;
-            --neon-cyan: #00e5ff;
-            --neon-silver: #c0c0d0;
-            --dark-bg: #050508;
-            --darker-bg: #020204;
-            --card-bg: rgba(10, 10, 20, 0.7);
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glow-blue: 0 0 20px rgba(0, 240, 255, 0.4), 0 0 60px rgba(0, 240, 255, 0.2);
-            --glow-purple: 0 0 20px rgba(179, 71, 255, 0.4), 0 0 60px rgba(179, 71, 255, 0.2);
+            --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff;
+            --neon-silver: #c0c0d0; --neon-green: #00ff88; --neon-orange: #ff9d00;
+            --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7);
+            --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08);
+            --glow-blue: 0 0 20px rgba(0,240,255,0.4);
         }
-
         html { scroll-behavior: smooth; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--dark-bg);
-            color: #fff;
-            overflow-x: hidden;
-            min-height: 100vh;
+        body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
+        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
+        .bg-grid::before { content: ''; position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px;
+            animation: gp 4s ease-in-out infinite;
         }
+        @keyframes gp { 0%,100% { opacity:0.3; } 50% { opacity:0.6; } }
 
-        /* Background */
-        .bg-grid {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0; opacity: 0.15;
-        }
-        .bg-grid::before {
-            content: ''; position: absolute; inset: 0;
-            background-image:
-                linear-gradient(rgba(0, 240, 255, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.15) 1px, transparent 1px);
-            background-size: 60px 60px;
-            animation: gridPulse 4s ease-in-out infinite;
-        }
-        @keyframes gridPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
-
-        /* Navigation */
-        nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            padding: 20px 40px;
-            display: flex; justify-content: space-between; align-items: center;
-            background: linear-gradient(to bottom, rgba(5, 5, 8, 0.95), transparent);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .logo {
-            font-family: 'Orbitron', sans-serif; font-size: 1.6rem; font-weight: 800;
-            color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px;
-        }
-        .logo::after { content: ' Academy'; color: var(--neon-purple); text-shadow: var(--glow-purple); font-size: 1rem; }
-        .nav-links { display: flex; gap: 35px; list-style: none; }
-        .nav-links a {
-            color: var(--neon-silver); text-decoration: none; font-size: 0.9rem;
-            font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s;
-        }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
-            background: var(--neon-blue); box-shadow: var(--glow-blue); transition: width 0.3s;
-        }
+        nav { position: fixed; top:0; left:0; right:0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,8,0.95), transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px; }
+        .logo span { color: var(--neon-purple); font-size: 0.85rem; }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--neon-blue); transition: width 0.3s; }
         .nav-links a:hover { color: var(--neon-blue); }
         .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--neon-blue); }
+        .btn { padding: 12px 28px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 50px; color: #000;
+            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block;
+            transition: all 0.3s; box-shadow: 0 0 30px rgba(0,240,255,0.3); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(0,240,255,0.4); }
 
-        /* Sections */
         section { position: relative; z-index: 2; padding: 100px 40px; }
-        
-        /* Hero */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; z-index: 2;
-        }
-        .hero-content { display: flex; align-items: center; gap: 60px; max-width: 1400px; padding: 0 40px; width: 100%; z-index: 3; }
-        .hero-text { flex: 1; max-width: 650px; }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 10px 25px; background: var(--glass-bg); border: 1px solid var(--glass-border);
-            border-radius: 50px; font-size: 0.8rem; color: var(--neon-cyan);
-            margin-bottom: 30px; backdrop-filter: blur(10px);
-        }
-        .pulse-dot { width: 8px; height: 8px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--neon-cyan); animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
-        
-        .hero-title {
-            font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 900; line-height: 1.1; margin-bottom: 25px;
-            background: linear-gradient(135deg, #fff 0%, var(--neon-blue) 40%, var(--neon-purple) 70%, var(--neon-silver) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .hero-subtitle { font-size: 1.15rem; color: var(--neon-silver); line-height: 1.7; margin-bottom: 40px; max-width: 500px; opacity: 0.85; }
-        .hero-buttons { display: flex; gap: 20px; flex-wrap: wrap; }
-        
-        .btn-primary {
-            padding: 16px 45px;
-            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-            border: none; border-radius: 50px; color: #000;
-            font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.95rem;
-            letter-spacing: 2px; cursor: pointer; text-decoration: none; display: inline-block;
-            transition: all 0.4s; box-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
-        }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 50px rgba(0, 240, 255, 0.5), 0 0 80px rgba(179, 71, 255, 0.3); }
-        
-        .btn-secondary {
-            padding: 16px 45px; background: transparent; border: 2px solid var(--glass-border);
-            border-radius: 50px; color: var(--neon-silver);
-            font-family: 'Orbitron', sans-serif; font-weight: 600; font-size: 0.95rem;
-            letter-spacing: 2px; cursor: pointer; text-decoration: none; display: inline-block;
-            transition: all 0.4s; backdrop-filter: blur(10px);
-        }
-        .btn-secondary:hover { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: var(--glow-blue); transform: translateY(-3px); }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .hero-inner { max-width: 900px; text-align: center; }
+        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px;
+            font-size: 0.75rem; color: var(--neon-cyan); margin-bottom: 24px; backdrop-filter: blur(10px); }
+        .pulse { width: 6px; height: 6px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--neon-cyan); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+        .hero h1 { font-family: 'Orbitron'; font-size: clamp(2.5rem,5vw,4rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px;
+            background: linear-gradient(135deg,#fff 0%,var(--neon-blue) 40%,var(--neon-purple) 70%,var(--neon-silver) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { font-size: 1.1rem; color: var(--neon-silver); line-height: 1.7; max-width: 600px; margin: 0 auto 32px; opacity: 0.85; }
+        .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn-sec { padding: 12px 28px; background: transparent; border: 1px solid var(--glass-border); border-radius: 50px; color: var(--neon-silver);
+            font-family: 'Orbitron'; font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block;
+            transition: all 0.3s; }
+        .btn-sec:hover { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: var(--glow-blue); }
 
-        /* Section Headers */
-        .section-header { text-align: center; margin-bottom: 70px; }
-        .section-label {
-            display: inline-block; padding: 8px 25px; background: var(--glass-bg);
-            border: 1px solid var(--glass-border); border-radius: 50px;
-            font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: var(--neon-blue);
-            letter-spacing: 3px; margin-bottom: 20px; text-transform: uppercase;
-        }
-        .section-title {
-            font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 800; margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .section-desc { color: var(--neon-silver); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
+        .sec-label { display: inline-block; padding: 6px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px;
+            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+        .sec-title { font-family: 'Orbitron'; font-size: clamp(1.8rem,3vw,2.5rem); font-weight: 800; margin-bottom: 12px;
+            background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 550px; margin: 0 auto 50px; line-height: 1.7; opacity: 0.8; text-align: center; }
+        .sec-head { text-align: center; margin-bottom: 50px; }
 
-        /* Cards */
-        .cards-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px; max-width: 1200px; margin: 0 auto;
-        }
-        .card {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 40px 30px; position: relative; overflow: hidden;
-            transition: all 0.4s; backdrop-filter: blur(15px); text-decoration: none; color: inherit; display: block;
-        }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-cyan));
-            opacity: 0; transition: opacity 0.4s;
-        }
-        .card:hover { transform: translateY(-10px); border-color: rgba(0, 240, 255, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 240, 255, 0.15), 0 0 40px rgba(179, 71, 255, 0.1); }
-        .card:hover::before { opacity: 1; }
-        .card-icon {
-            width: 60px; height: 60px;
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(179, 71, 255, 0.2));
-            border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 15px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; margin-bottom: 25px;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
-        }
-        .card-title { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 15px; letter-spacing: 1px; }
-        .card-desc { color: var(--neon-silver); font-size: 0.95rem; line-height: 1.7; opacity: 0.8; }
-        .card-meta { display: flex; gap: 15px; margin-top: 20px; font-size: 0.8rem; color: var(--neon-blue); font-family: 'Orbitron', sans-serif; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; transition: all 0.3s;
+            backdrop-filter: blur(15px); text-decoration: none; color: inherit; display: block; }
+        .card:hover { transform: translateY(-5px); border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
+        .c-icon { width: 44px; height: 44px; background: linear-gradient(135deg,rgba(0,240,255,0.2),rgba(179,71,255,0.2));
+            border: 1px solid rgba(0,240,255,0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; margin-bottom: 16px; box-shadow: 0 0 12px rgba(0,240,255,0.15); }
+        .c-title { font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: 1px; }
+        .c-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
+        .c-meta { display: flex; gap: 12px; margin-top: 14px; font-size: 0.7rem; color: var(--neon-blue); font-family: 'Orbitron'; }
+        .c-link { color: var(--neon-cyan); font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 1px; margin-top: 12px; display: inline-block; }
 
-        /* Email Signup */
-        .signup-section { background: linear-gradient(to bottom, var(--dark-bg), var(--darker-bg)); }
-        .signup-box {
-            max-width: 600px; margin: 0 auto;
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 24px; padding: 50px; text-align: center;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 0 80px rgba(0, 240, 255, 0.1), 0 0 150px rgba(179, 71, 255, 0.05);
-        }
-        .signup-box h3 { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
-        .signup-box p { color: var(--neon-silver); margin-bottom: 30px; line-height: 1.7; }
-        .form-group { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .form-input {
-            flex: 1; min-width: 250px; padding: 16px 25px;
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            border-radius: 50px; color: #fff; font-family: 'Inter', sans-serif; font-size: 1rem;
-            outline: none; transition: all 0.3s;
-        }
-        .form-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
-        .form-input::placeholder { color: var(--neon-silver); opacity: 0.6; }
-        .form-btn {
-            padding: 16px 40px; background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-            border: none; border-radius: 50px; color: #000;
-            font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.9rem;
-            letter-spacing: 2px; cursor: pointer; transition: all 0.4s;
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
-        }
-        .form-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0, 240, 255, 0.4); }
+        .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; max-width: 1000px; margin: 0 auto 60px; }
+        .stat-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; text-align: center; }
+        .stat-num { font-family: 'Orbitron'; font-size: 2rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); }
+        .stat-lbl { font-size: 0.8rem; color: var(--neon-silver); margin-top: 4px; }
 
-        /* Contact Form */
-        .contact-section { background: var(--darker-bg); }
-        .contact-box {
-            max-width: 600px; margin: 0 auto;
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 24px; padding: 50px;
-            backdrop-filter: blur(15px);
-        }
-        .contact-box h3 { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; margin-bottom: 15px; color: #fff; text-align: center; }
-        .contact-box p { color: var(--neon-silver); margin-bottom: 30px; line-height: 1.7; text-align: center; }
-        .contact-field { margin-bottom: 20px; }
-        .contact-field label { display: block; color: var(--neon-silver); font-size: 0.85rem; margin-bottom: 8px; font-family: 'Orbitron', sans-serif; letter-spacing: 1px; }
-        .contact-field input, .contact-field textarea, .contact-field select {
-            width: 100%; padding: 14px 20px;
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            border-radius: 12px; color: #fff; font-family: 'Inter', sans-serif; font-size: 1rem;
-            outline: none; transition: all 0.3s;
-        }
-        .contact-field input:focus, .contact-field textarea:focus, .contact-field select:focus {
-            border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
-        }
-        .contact-field textarea { min-height: 120px; resize: vertical; }
-        .contact-field select option { background: var(--dark-bg); color: #fff; }
-        .submit-btn {
-            width: 100%; padding: 18px;
-            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-            border: none; border-radius: 50px; color: #000;
-            font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1rem;
-            letter-spacing: 2px; cursor: pointer; transition: all 0.4s;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.3); margin-top: 10px;
-        }
-        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 50px rgba(0, 240, 255, 0.5); }
+        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+        .f-logo { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); margin-bottom: 10px; }
+        .f-logo span { color: var(--neon-purple); font-size: 0.8rem; }
+        .f-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.8; opacity: 0.7; max-width: 280px; }
+        .f-title { font-family: 'Orbitron'; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 16px; }
+        .f-links { list-style: none; }
+        .f-links li { margin-bottom: 10px; }
+        .f-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
+        .f-links a:hover { color: var(--neon-blue); }
+        .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
 
-        /* Success Message */
-        .success-msg {
-            display: none; padding: 20px; background: rgba(0, 240, 255, 0.1);
-            border: 1px solid var(--neon-blue); border-radius: 12px;
-            color: var(--neon-blue); text-align: center; margin-top: 20px;
-            font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
-        }
-        .success-msg.show { display: block; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .dark { background: linear-gradient(to bottom, var(--dark-bg), var(--darker-bg)); }
 
-        /* Footer */
-        .footer {
-            background: var(--darker-bg); border-top: 1px solid var(--glass-border);
-            padding: 60px 40px 40px; position: relative; z-index: 2;
-        }
-        .footer-grid {
-            display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px;
-            max-width: 1200px; margin: 0 auto 40px;
-        }
-        .footer-brand .logo { margin-bottom: 15px; display: inline-block; }
-        .footer-brand p { color: var(--neon-silver); font-size: 0.95rem; line-height: 1.8; opacity: 0.8; max-width: 300px; }
-        .footer-social { display: flex; gap: 15px; margin-top: 20px; }
-        .social-icon {
-            width: 45px; height: 45px; background: var(--glass-bg);
-            border: 1px solid var(--glass-border); border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; color: var(--neon-silver); cursor: pointer;
-            transition: all 0.3s; text-decoration: none;
-        }
-        .social-icon:hover { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: var(--glow-blue); transform: translateY(-5px); }
-        .footer-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 20px; }
-        .footer-links { list-style: none; }
-        .footer-links li { margin-bottom: 12px; }
-        .footer-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
-        .footer-links a:hover { color: var(--neon-blue); }
-        .footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 30px; text-align: center; color: var(--neon-silver); font-size: 0.85rem; opacity: 0.6; }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-content { flex-direction: column; text-align: center; }
-            .hero-subtitle { margin: 0 auto 40px; }
-            .hero-buttons { justify-content: center; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 768px) {
-            nav { padding: 15px 20px; }
+        @media(max-width:768px) {
             .nav-links { display: none; }
-            .cards-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-            .signup-box, .contact-box { padding: 30px 20px; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+            .f-grid { grid-template-columns: 1fr; gap: 30px; }
             section { padding: 60px 20px; }
-            .form-group { flex-direction: column; }
-            .form-input { min-width: 100%; }
         }
-
-        /* Scroll animations */
-        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--dark-bg); }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--neon-blue), var(--neon-purple)); border-radius: 4px; }
     </style>
 </head>
 <body>
-
     <div class="bg-grid"></div>
-
-    <!-- Navigation -->
     <nav>
-        <div class="logo">NEXUS</div>
+        <div class="logo">NEXUS <span>Academy</span></div>
         <ul class="nav-links">
-            <li><a href="#skills">AI Skills</a></li>
-            <li><a href="#resources">Resources</a></li>
-            <li><a href="#community">Community</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="startup.html">Startup</a></li>
+            <li><a href="resume.html">Resume</a></li>
+            <li><a href="chatbot.html">AI Chat</a></li>
+            <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">Dashboard</a></li>
+            <li><button id="themeBtn" onclick="toggleTheme()" style="background:none;border:1px solid var(--glass-border);border-radius:50%;width:36px;height:36px;color:var(--neon-blue);cursor:pointer;font-size:1rem;">☀️</button></li>
         </ul>
-        <a href="#signup" class="btn-primary" style="padding: 12px 30px; font-size: 0.85rem;">Join Free</a>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <div class="hero-badge">
-                    <span class="pulse-dot"></span>
-                    Free AI & Tech Education
-                </div>
-                <h1 class="hero-title">Master AI Tools<br>& Tech Skills</h1>
-                <p class="hero-subtitle">
-                    Learn practical AI for business, coding, data analytics, and no-code automation. 
-                    Built for students and entrepreneurs who want real skills, not theory.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#skills" class="btn-primary">Start Learning</a>
-                    <a href="#resources" class="btn-secondary">Free Resources</a>
-                </div>
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="badge"><span class="pulse"></span>100% Free Learning Platform</div>
+            <h1>Master AI & Tech<br>Without Paying a Penny</h1>
+            <p>Real free courses, tools, and community for students and entrepreneurs. No subscriptions. No credit cards. No fake promises. Just curated links to the best free resources on the internet.</p>
+            <div class="hero-btns">
+                <a href="courses.html" class="btn">Explore Free Courses</a>
+                <a href="startup.html" class="btn-sec">Startup Resources</a>
             </div>
         </div>
     </section>
 
-    <!-- AI Skills Section -->
-    <section class="skills" id="skills">
-        <div class="section-header reveal">
-            <div class="section-label">Learn</div>
-            <h2 class="section-title">AI Skills for Business</h2>
-            <p class="section-desc">Practical skills you can use today — no fluff, no filler.</p>
+    <section class="dark">
+        <div class="sec-head">
+            <span class="sec-label">Impact</span>
+            <h2 class="sec-title">Learning at Scale</h2>
         </div>
-        <div class="cards-grid">
-            <div class="card reveal reveal-delay-1">
-                <div class="card-icon">🤖</div>
-                <h3 class="card-title">ChatGPT & AI Prompting</h3>
-                <p class="card-desc">Master prompt engineering, build AI assistants, automate content creation, and write better emails in 50% less time.</p>
-                <div class="card-meta">📹 12 Videos | ⏱ 3 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-2">
-                <div class="card-icon">📊</div>
-                <h3 class="card-title">Data Analytics with AI</h3>
-                <p class="card-desc">Use AI to analyze spreadsheets, create dashboards, visualize trends, and make data-driven business decisions.</p>
-                <div class="card-meta">📹 8 Videos | ⏱ 2.5 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-3">
-                <div class="card-icon">⚡</div>
-                <h3 class="card-title">No-Code Automation</h3>
-                <p class="card-desc">Build automated workflows with Zapier, Make, and n8n. Connect apps, automate emails, and scale without coding.</p>
-                <div class="card-meta">📹 10 Videos | ⏱ 4 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-1">
-                <div class="card-icon">🎨</div>
-                <h3 class="card-title">AI Image & Video Creation</h3>
-                <p class="card-desc">Create professional visuals with Midjourney, DALL-E, Runway ML. Design social posts, ads, and product mockups.</p>
-                <div class="card-meta">📹 6 Videos | ⏱ 2 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-2">
-                <div class="card-icon">💼</div>
-                <h3 class="card-title">AI for Marketing</h3>
-                <p class="card-desc">Use AI for SEO, ad copy, email campaigns, social media management, and customer segmentation strategies.</p>
-                <div class="card-meta">📹 9 Videos | ⏱ 3.5 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-3">
-                <div class="card-icon">🔒</div>
-                <h3 class="card-title">AI Security & Ethics</h3>
-                <p class="card-desc">Understand AI risks, data privacy, prompt injection, and how to use AI responsibly in business.</p>
-                <div class="card-meta">📹 5 Videos | ⏱ 1.5 Hours</div>
-            </div>
+        <div class="stats-row">
+            <div class="stat-card"><div class="stat-num">50+</div><div class="stat-lbl">Free Courses</div></div>
+            <div class="stat-card"><div class="stat-num">100%</div><div class="stat-lbl">Free Forever</div></div>
+            <div class="stat-card"><div class="stat-num">∞</div><div class="stat-lbl">Learning Paths</div></div>
+            <div class="stat-card"><div class="stat-num">0</div><div class="stat-lbl">Hidden Fees</div></div>
         </div>
     </section>
 
-    <!-- Tech Skills Section -->
-    <section class="skills" id="tech" style="background: linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));">
-        <div class="section-header reveal">
-            <div class="section-label">Code</div>
-            <h2 class="section-title">Tech Skills Path</h2>
-            <p class="section-desc">From beginner to builder. Learn to code, automate, and build real tools.</p>
+    <section>
+        <div class="sec-head">
+            <span class="sec-label">Start Here</span>
+            <h2 class="sec-title">Popular Free Courses</h2>
+            <p class="sec-desc">Click any card to open the real course. No signups needed.</p>
         </div>
         <div class="cards-grid">
-            <div class="card reveal reveal-delay-1">
-                <div class="card-icon">🐍</div>
-                <h3 class="card-title">Python for Beginners</h3>
-                <p class="card-desc">Learn Python from scratch. Write scripts, automate tasks, analyze data, and build simple apps with AI libraries.</p>
-                <div class="card-meta">📹 20 Videos | ⏱ 8 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-2">
-                <div class="card-icon">🌐</div>
-                <h3 class="card-title">Web Development Basics</h3>
-                <p class="card-desc">HTML, CSS, JavaScript fundamentals. Build responsive websites, understand how the web works, deploy your first site.</p>
-                <div class="card-meta">📹 15 Videos | ⏱ 6 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-3">
-                <div class="card-icon">📱</div>
-                <h3 class="card-title">APIs & Integrations</h3>
-                <p class="card-desc">Connect to real APIs, use OpenAI API, build chatbots, fetch live data, and integrate services into your projects.</p>
-                <div class="card-meta">📹 8 Videos | ⏱ 3 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-1">
-                <div class="card-icon">🗄️</div>
-                <h3 class="card-title">Databases & SQL</h3>
-                <p class="card-desc">Learn SQL queries, database design, and how to store and retrieve data for your apps and analytics projects.</p>
-                <div class="card-meta">📹 10 Videos | ⏱ 4 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-2">
-                <div class="card-icon">☁️</div>
-                <h3 class="card-title">Cloud & Deployment</h3>
-                <p class="card-desc">Deploy websites and apps to the cloud. Learn Git, GitHub, Netlify, Vercel, and basic server management.</p>
-                <div class="card-meta">📹 7 Videos | ⏱ 2.5 Hours</div>
-            </div>
-            <div class="card reveal reveal-delay-3">
-                <div class="card-icon">🛠️</div>
-                <h3 class="card-title">Git & Version Control</h3>
-                <p class="card-desc">Master Git workflows, collaborate on GitHub, manage code versions, and work in teams like a pro developer.</p>
-                <div class="card-meta">📹 6 Videos | ⏱ 2 Hours</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Free Resources Section -->
-    <section class="resources" id="resources">
-        <div class="section-header reveal">
-            <div class="section-label">Free</div>
-            <h2 class="section-title">Downloadable Resources</h2>
-            <p class="section-desc">Cheat sheets, templates, and guides — free to download and use.</p>
-        </div>
-        <div class="cards-grid">
-            <div class="card reveal reveal-delay-1">
-                <div class="card-icon">📄</div>
-                <h3 class="card-title">AI Prompt Engineering Guide</h3>
-                <p class="card-desc">50+ proven prompt templates for ChatGPT. Covers writing, coding, analysis, marketing, and creative tasks.</p>
-                <div class="card-meta">📥 PDF | 12 Pages</div>
-            </div>
-            <div class="card reveal reveal-delay-2">
-                <div class="card-icon">📊</div>
-                <h3 class="card-title">Business Automation Checklist</h3>
-                <p class="card-desc">Step-by-step checklist to automate 20+ business tasks. Includes tool recommendations and setup instructions.</p>
-                <div class="card-meta">📥 PDF | 8 Pages</div>
-            </div>
-            <div class="card reveal reveal-delay-3">
-                <div class="card-icon">📈</div>
-                <h3 class="card-title">Data Analysis Template Pack</h3>
-                <p class="card-desc">Google Sheets and Excel templates with pre-built formulas, charts, and dashboards for business analytics.</p>
-                <div class="card-meta">📥 Sheets + Excel | 5 Files</div>
-            </div>
-            <div class="card reveal reveal-delay-1">
-                <div class="card-icon">🎯</div>
-                <h3 class="card-title">AI Marketing Toolkit</h3>
-                <p class="card-desc">Ready-to-use templates for AI-powered ad copy, email sequences, social media posts, and SEO content briefs.</p>
-                <div class="card-meta">📥 PDF + Docs | 15 Templates</div>
-            </div>
-            <div class="card reveal reveal-delay-2">
-                <div class="card-icon">🐍</div>
-                <h3 class="card-title">Python Cheat Sheet</h3>
-                <p class="card-desc">Quick reference for Python syntax, data structures, functions, libraries, and common AI/ML code patterns.</p>
-                <div class="card-meta">📥 PDF | 4 Pages</div>
-            </div>
-            <div class="card reveal reveal-delay-3">
-                <div class="card-icon">🛡️</div>
-                <h3 class="card-title">AI Ethics & Safety Guide</h3>
-                <p class="card-desc">Understand bias, privacy, hallucinations, and responsible AI use. Essential for business and developers.</p>
-                <div class="card-meta">📥 PDF | 6 Pages</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Community Section -->
-    <section class="community" id="community" style="background: linear-gradient(to bottom, var(--dark-bg), var(--darker-bg));">
-        <div class="section-header reveal">
-            <div class="section-label">Connect</div>
-            <h2 class="section-title">Join the Community</h2>
-            <p class="section-desc">Learn together, ask questions, share projects, and get feedback.</p>
-        </div>
-        <div class="cards-grid">
-            <a href="#" class="card reveal reveal-delay-1" target="_blank">
-                <div class="card-icon">💬</div>
-                <h3 class="card-title">Discord Community</h3>
-                <p class="card-desc">Join 5,000+ learners. Ask questions, share your projects, get help, and network with other students and founders.</p>
-                <div class="card-meta">🚀 Join Free →</div>
+            <a href="https://www.coursera.org/learn/ai-for-everyone" class="card" target="_blank">
+                <div class="c-icon">🤖</div>
+                <div class="c-title">AI For Everyone</div>
+                <div class="c-desc">Andrew Ng's free Coursera course. Understand AI strategy and build AI-powered companies.</div>
+                <div class="c-meta">🎓 Coursera | 🆓 Audit</div>
             </a>
-            <a href="#" class="card reveal reveal-delay-2" target="_blank">
-                <div class="card-icon">📺</div>
-                <h3 class="card-title">YouTube Channel</h3>
-                <p class="card-desc">Free video tutorials, live coding sessions, AI tool reviews, and weekly tech breakdowns. Subscribe for updates.</p>
-                <div class="card-meta">▶ Subscribe →</div>
+            <a href="https://www.theodinproject.com/" class="card" target="_blank">
+                <div class="c-icon">🌐</div>
+                <div class="c-title">The Odin Project</div>
+                <div class="c-desc">Free full-stack web dev. HTML, CSS, JS, React, Node.js. Built by devs, for devs.</div>
+                <div class="c-meta">🌐 Free Forever</div>
             </a>
-            <a href="#" class="card reveal reveal-delay-3" target="_blank">
-                <div class="card-icon">📧</div>
-                <h3 class="card-title">Weekly Newsletter</h3>
-                <p class="card-desc">Get the best AI tools, tutorials, and resources delivered to your inbox every Monday. No spam, ever.</p>
-                <div class="card-meta">✉️ Read Free →</div>
+            <a href="https://www.startupschool.org/" class="card" target="_blank">
+                <div class="c-icon">🚀</div>
+                <div class="c-title">How to Start a Startup</div>
+                <div class="c-desc">Y Combinator's legendary course. 20 lectures from Sam Altman and successful founders.</div>
+                <div class="c-meta">🎓 Y Combinator</div>
+            </a>
+            <a href="https://www.youtube.com/watch?v=rfscVS0vtbw" class="card" target="_blank">
+                <div class="c-icon">🐍</div>
+                <div class="c-title">Python Full Course (6H)</div>
+                <div class="c-desc">freeCodeCamp complete Python tutorial. 40M+ views. Best place to start coding.</div>
+                <div class="c-meta">▶ YouTube | ⏱ 6 Hours</div>
+            </a>
+            <a href="https://www.khanacademy.org/college-careers-more/talks-and-interviews/talks-and-interviews-unit/conversations-with-sal-a-financial-literacy" class="card" target="_blank">
+                <div class="c-icon">💰</div>
+                <div class="c-title">Financial Literacy</div>
+                <div class="c-desc">Khan Academy free course. Personal finance, investing, taxes, and financial planning.</div>
+                <div class="c-meta">🎓 Khan Academy</div>
+            </a>
+            <a href="https://learndigital.withgoogle.com/digitalgarage/course/digital-marketing" class="card" target="_blank">
+                <div class="c-icon">📢</div>
+                <div class="c-title">Digital Marketing</div>
+                <div class="c-desc">Google Digital Garage. SEO, SEM, social media, analytics. Includes free certificate.</div>
+                <div class="c-meta">🎓 Google | 📜 Certificate</div>
+            </a>
+        </div>
+        <div style="text-align:center;margin-top:30px;">
+            <a href="courses.html" class="btn">View All Courses →</a>
+        </div>
+    </section>
+
+    <section class="dark">
+        <div class="sec-head">
+            <span class="sec-label">Build</span>
+            <h2 class="sec-title">For Entrepreneurs</h2>
+            <p class="sec-desc">Free templates, tools, and resources to build your business.</p>
+        </div>
+        <div class="cards-grid" style="max-width:900px;">
+            <a href="https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan" class="card" target="_blank">
+                <div class="c-icon">📄</div>
+                <div class="c-title">Business Plan Template</div>
+                <div class="c-desc">Free SBA fill-in-the-blank business plan for any startup.</div>
+            </a>
+            <a href="https://www.strategyzer.com/canvas/business-model-canvas" class="card" target="_blank">
+                <div class="c-icon">📋</div>
+                <div class="c-title">Business Model Canvas</div>
+                <div class="c-desc">Strategyzer free tools to design and test business models.</div>
+            </a>
+            <a href="https://www.canva.com/" class="card" target="_blank">
+                <div class="c-icon">🎨</div>
+                <div class="c-title">Canva (Free + AI)</div>
+                <div class="c-desc">Design social posts, presentations, logos. No design skills needed.</div>
+            </a>
+        </div>
+        <div style="text-align:center;margin-top:30px;">
+            <a href="startup.html" class="btn-sec">Browse All Tools →</a>
+        </div>
+    </section>
+
+    <section>
+        <div class="sec-head">
+            <span class="sec-label">Connect</span>
+            <h2 class="sec-title">Join the Community</h2>
+            <p class="sec-desc">Ask questions, share projects, find mentors. Zero cost.</p>
+        </div>
+        <div class="cards-grid" style="max-width:900px;">
+            <a href="community.html" class="card">
+                <div class="c-icon">💬</div>
+                <div class="c-title">Discussion Forum</div>
+                <div class="c-desc">Ask questions, share ideas, get feedback from learners and mentors.</div>
+                <div class="c-link">Open Forum →</div>
+            </a>
+            <a href="community.html#mentors" class="card">
+                <div class="c-icon">👨‍🏫</div>
+                <div class="c-title">Mentor Support</div>
+                <div class="c-desc">Connect with AI engineers, startup founders, and marketing pros.</div>
+                <div class="c-link">Find Mentors →</div>
+            </a>
+            <a href="community.html#projects" class="card">
+                <div class="c-icon">🏆</div>
+                <div class="c-title">Show & Tell</div>
+                <div class="c-desc">Showcase your projects. Get hired, find co-founders, build your network.</div>
+                <div class="c-link">Share Project →</div>
             </a>
         </div>
     </section>
 
-    <!-- Email Signup Section -->
-    <section class="signup-section" id="signup">
-        <div class="section-header reveal">
-            <div class="section-label">Get Started</div>
-            <h2 class="section-title">Join the Academy</h2>
-            <p class="section-desc">Get free access to all courses, resources, and the community.</p>
-        </div>
-        <div class="signup-box reveal">
-            <h3>Start Learning for Free</h3>
-            <p>Enter your email to get instant access to all free courses, cheat sheets, and the Discord community. No credit card needed.</p>
-            <form name="signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleFormSubmit(event, 'signup-success')">
-                <p style="display: none;">
-                    <label>Don't fill this out: <input name="bot-field" /></label>
-                </p>
-                <div class="form-group">
-                    <input type="email" name="email" class="form-input" placeholder="Enter your email address" required />
-                    <select name="role" class="form-input" style="min-width: 150px; flex: 0 1 auto;">
-                        <option value="student">Student</option>
-                        <option value="entrepreneur">Entrepreneur</option>
-                        <option value="professional">Professional</option>
-                        <option value="other">Other</option>
-                    </select>
-                    <button type="submit" class="form-btn">Join Free</button>
-                </div>
-                <div id="signup-success" class="success-msg">
-                    ✅ Welcome to NEXUS Academy! Check your email for access links.
-                </div>
-            </form>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
-        <div class="section-header reveal">
-            <div class="section-label">Reach Out</div>
-            <h2 class="section-title">Contact Us</h2>
-            <p class="section-desc">Questions? Ideas? Partnerships? We'd love to hear from you.</p>
-        </div>
-        <div class="contact-box reveal">
-            <h3>Send a Message</h3>
-            <p>Fill out the form below and we'll get back to you within 24 hours.</p>
-            <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleFormSubmit(event, 'contact-success')">
-                <p style="display: none;">
-                    <label>Don't fill this out: <input name="bot-field" /></label>
-                </p>
-                <div class="contact-field">
-                    <label>Name</label>
-                    <input type="text" name="name" placeholder="Your name" required />
-                </div>
-                <div class="contact-field">
-                    <label>Email</label>
-                    <input type="email" name="email" placeholder="your@email.com" required />
-                </div>
-                <div class="contact-field">
-                    <label>Topic</label>
-                    <select name="topic" required>
-                        <option value="">Select a topic...</option>
-                        <option value="course-question">Course Question</option>
-                        <option value="partnership">Partnership</option>
-                        <option value="feedback">Feedback</option>
-                        <option value="bug-report">Bug Report</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div class="contact-field">
-                    <label>Message</label>
-                    <textarea name="message" placeholder="How can we help you?" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-                <div id="contact-success" class="success-msg">
-                    ✅ Message sent! We'll reply within 24 hours.
-                </div>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
     <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <div class="logo">NEXUS</div>
-                <p>Free AI and tech education for students, entrepreneurs, and lifelong learners. No paywalls, no fake promises — just real skills.</p>
-                <div class="footer-social">
-                    <a href="#" class="social-icon" target="_blank">𝕏</a>
-                    <a href="#" class="social-icon" target="_blank">in</a>
-                    <a href="#" class="social-icon" target="_blank">▶</a>
-                    <a href="#" class="social-icon" target="_blank">💬</a>
-                </div>
+        <div class="f-grid">
+            <div>
+                <div class="f-logo">NEXUS <span>Academy</span></div>
+                <p class="f-desc">Free AI and tech education hub. We curate the best free resources so you don't waste time or money.</p>
             </div>
             <div>
-                <h4 class="footer-title">Learn</h4>
-                <ul class="footer-links">
-                    <li><a href="#skills">AI for Business</a></li>
-                    <li><a href="#tech">Tech Skills</a></li>
-                    <li><a href="#resources">Free Resources</a></li>
-                    <li><a href="#community">Community</a></li>
+                <div class="f-title">Learn</div>
+                <ul class="f-links">
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="startup.html">Startup Tools</a></li>
+                    <li><a href="dashboard.html">My Dashboard</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="footer-title">Info</h4>
-                <ul class="footer-links">
-                    <li><a href="#signup">Join Free</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Use</a></li>
+                <div class="f-title">Community</div>
+                <ul class="f-links">
+                    <li><a href="community.html">Forum</a></li>
+                    <li><a href="community.html#mentors">Mentors</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="f-title">Info</div>
+                <ul class="f-links">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="https://github.com/vaniarya965/nexus-ai-landing" target="_blank">GitHub</a></li>
                 </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2026 NEXUS Academy. Built for learners. No fake stuff.</p>
-        </div>
+        <div class="f-bot">© 2026 NEXUS Academy. Built to help people learn for free. No paid content. No fake promises.</div>
     </footer>
 
     <script>
-        // Scroll reveal
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        // Nav scroll effect
         const nav = document.querySelector('nav');
         window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 100) {
-                nav.style.background = 'rgba(5, 5, 8, 0.98)';
-                nav.style.boxShadow = '0 5px 30px rgba(0, 240, 255, 0.1)';
-            } else {
-                nav.style.background = 'linear-gradient(to bottom, rgba(5, 5, 8, 0.95), transparent)';
-                nav.style.boxShadow = 'none';
-            }
+            if (window.scrollY > 80) { nav.style.background = 'rgba(5,5,8,0.98)'; nav.style.boxShadow = '0 5px 30px rgba(0,240,255,0.08)'; }
+            else { nav.style.background = 'linear-gradient(to bottom, rgba(5,5,8,0.95), transparent)'; nav.style.boxShadow = 'none'; }
         });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-
-        // Form submission handler
-        function handleFormSubmit(e, successId) {
-            e.preventDefault();
-            const form = e.target;
-            const successMsg = document.getElementById(successId);
-            
-            // Show success message immediately (Netlify will handle the backend)
-            successMsg.classList.add('show');
-            form.reset();
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                successMsg.classList.remove('show');
-            }, 5000);
-        }
     </script>
-
+    <script src="nexus.js"></script>
 </body>
 </html>

@@ -35,8 +35,14 @@
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(340px,1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; padding: 0 40px 60px; position: relative; z-index: 2; }
         .video-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; transition: all 0.3s; }
         .video-card:hover { border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); transform: translateY(-4px); }
-        .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-        .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .video-thumb { position: relative; display: block; text-decoration: none; border-radius: 12px; overflow: hidden; }
+        .video-thumb img { width: 100%; display: block; border-radius: 12px; transition: transform 0.3s; }
+        .video-thumb:hover img { transform: scale(1.03); }
+        .play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.35); border-radius: 12px; transition: background 0.3s; }
+        .video-thumb:hover .play-overlay { background: rgba(0,0,0,0.2); }
+        .play-btn { width: 64px; height: 64px; background: rgba(255,0,0,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.4); transition: transform 0.3s; }
+        .video-thumb:hover .play-btn { transform: scale(1.1); }
+        .play-btn::after { content: ''; width: 0; height: 0; border-left: 20px solid #fff; border-top: 12px solid transparent; border-bottom: 12px solid transparent; margin-left: 4px; }
         .video-info { padding: 20px; }
         .video-info h4 { font-family: 'Orbitron'; font-size: 0.95rem; color: #fff; margin-bottom: 6px; }
         .video-info p { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
@@ -91,9 +97,10 @@
 
     <div style="max-width:900px;margin:0 auto 50px;padding:0 40px;position:relative;z-index:2;">
         <div class="video-card">
-            <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/4AUHMvbG3Ys" title="Prompt Engineering Full Course" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-            </div>
+            <a href="https://youtube.com/watch?v=4AUHMvbG3Ys" target="_blank" class="video-thumb">
+                <img src="https://img.youtube.com/vi/4AUHMvbG3Ys/maxresdefault.jpg" alt="Prompt Engineering Full Course" onerror="this.src='https://img.youtube.com/vi/4AUHMvbG3Ys/hqdefault.jpg'">
+                <div class="play-overlay"><div class="play-btn"></div></div>
+            </a>
             <div class="video-info">
                 <h4>🎬 Complete Prompt Engineering Course</h4>
                 <p>A full free crash course covering every technique: zero-shot, few-shot, chain-of-thought, role prompting, and more.</p>
@@ -106,14 +113,15 @@
     <div class="page-head" style="padding:40px;">
         <span class="sec-label">Watch & Learn</span>
         <h2 class="sec-title">Video Lessons</h2>
-        <p class="sec-desc">Verified real YouTube videos. Click play or open on YouTube.</p>
+        <p class="sec-desc">Verified real YouTube videos. Click the thumbnail to watch.</p>
     </div>
 
     <div class="video-grid">
         <div class="video-card">
-            <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/UxspLYQ5nho" title="Prompt Engineering Quick Intro" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-            </div>
+            <a href="https://youtube.com/watch?v=UxspLYQ5nho" target="_blank" class="video-thumb">
+                <img src="https://img.youtube.com/vi/UxspLYQ5nho/maxresdefault.jpg" alt="Prompt Engineering in 8 Minutes" onerror="this.src='https://img.youtube.com/vi/UxspLYQ5nho/hqdefault.jpg'">
+                <div class="play-overlay"><div class="play-btn"></div></div>
+            </a>
             <div class="video-info">
                 <h4>Prompt Engineering in 8 Minutes</h4>
                 <p>Quick intro to prompt engineering from OpenAI Academy. Perfect first video to understand what prompting is and why it matters.</p>
@@ -122,9 +130,10 @@
             </div>
         </div>
         <div class="video-card">
-            <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/QnZYrD5ia7c" title="Prompt Engineering for Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-            </div>
+            <a href="https://youtube.com/watch?v=QnZYrD5ia7c" target="_blank" class="video-thumb">
+                <img src="https://img.youtube.com/vi/QnZYrD5ia7c/maxresdefault.jpg" alt="Prompt Engineering for Beginners" onerror="this.src='https://img.youtube.com/vi/QnZYrD5ia7c/hqdefault.jpg'">
+                <div class="play-overlay"><div class="play-btn"></div></div>
+            </a>
             <div class="video-info">
                 <h4>Prompt Engineering for Beginners: Full Workshop</h4>
                 <p>A full workshop covering fundamentals: zero-shot, few-shot, and role-based prompting with hands-on examples you can try immediately.</p>
@@ -133,9 +142,10 @@
             </div>
         </div>
         <div class="video-card">
-            <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/KRYOp2WXMjA" title="Chain of Thought Prompting" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-            </div>
+            <a href="https://youtube.com/watch?v=KRYOp2WXMjA" target="_blank" class="video-thumb">
+                <img src="https://img.youtube.com/vi/KRYOp2WXMjA/maxresdefault.jpg" alt="Chain of Thought Prompting" onerror="this.src='https://img.youtube.com/vi/KRYOp2WXMjA/hqdefault.jpg'">
+                <div class="play-overlay"><div class="play-btn"></div></div>
+            </a>
             <div class="video-info">
                 <h4>Chain-of-Thought Prompting Explained</h4>
                 <p>Learn how to make AI think step-by-step. Covers chain-of-thought, tree-of-thought, and self-consistency techniques for complex reasoning tasks.</p>
@@ -144,9 +154,10 @@
             </div>
         </div>
         <div class="video-card">
-            <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/YuhaMspUQCQ" title="Midjourney Prompting Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-            </div>
+            <a href="https://youtube.com/watch?v=YuhaMspUQCQ" target="_blank" class="video-thumb">
+                <img src="https://img.youtube.com/vi/YuhaMspUQCQ/maxresdefault.jpg" alt="Midjourney Tutorial" onerror="this.src='https://img.youtube.com/vi/YuhaMspUQCQ/hqdefault.jpg'">
+                <div class="play-overlay"><div class="play-btn"></div></div>
+            </a>
             <div class="video-info">
                 <h4>Complete Midjourney Tutorial: Prompt to Pro</h4>
                 <p>Learn how to generate stunning AI images with precise prompting. Covers styles, parameters, lighting, composition, and remix techniques.</p>
@@ -155,9 +166,10 @@
             </div>
         </div>
         <div class="video-card">
-            <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/_ZvnD73m40o" title="Prompt Engineering for Developers" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-            </div>
+            <a href="https://youtube.com/watch?v=_ZvnD73m40o" target="_blank" class="video-thumb">
+                <img src="https://img.youtube.com/vi/_ZvnD73m40o/maxresdefault.jpg" alt="Prompt Engineering for Developers" onerror="this.src='https://img.youtube.com/vi/_ZvnD73m40o/hqdefault.jpg'">
+                <div class="play-overlay"><div class="play-btn"></div></div>
+            </a>
             <div class="video-info">
                 <h4>Prompt Engineering for Developers</h4>
                 <p>Use ChatGPT and Claude to write, debug, and explain code. Covers function generation, test cases, documentation, and refactoring prompts.</p>
@@ -166,9 +178,10 @@
             </div>
         </div>
         <div class="video-card">
-            <div class="video-wrap">
-                <iframe src="https://www.youtube.com/embed/lTI4FyO0ul8" title="OpenAI Official Prompt Engineering Guide" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-            </div>
+            <a href="https://youtube.com/watch?v=lTI4FyO0ul8" target="_blank" class="video-thumb">
+                <img src="https://img.youtube.com/vi/lTI4FyO0ul8/maxresdefault.jpg" alt="OpenAI Prompt Engineering Guide" onerror="this.src='https://img.youtube.com/vi/lTI4FyO0ul8/hqdefault.jpg'">
+                <div class="play-overlay"><div class="play-btn"></div></div>
+            </a>
             <div class="video-info">
                 <h4>Official ChatGPT Prompt Engineering Guide</h4>
                 <p>Learn from the creators of ChatGPT. OpenAI's official best practices for writing clear, specific, and structured prompts that deliver expert results.</p>

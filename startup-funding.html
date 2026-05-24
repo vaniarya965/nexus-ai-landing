@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Funding Guide — NEXUS Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88;
+            --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08);
+            --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
+        body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
+        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
+        .bg-grid::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px; }
+        nav { position: fixed; top:0; left:0; right:0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,8,0.95), transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px; }
+        .logo span { color: var(--neon-purple); font-size: 0.85rem; }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--neon-blue); transition: width 0.3s; }
+        .nav-links a:hover { color: var(--neon-blue); }
+        .nav-links a:hover::after { width: 100%; }
+        .btn { padding: 12px 28px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 50px; color: #000;
+            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-sec { padding: 12px 28px; background: transparent; border: 1px solid var(--glass-border); border-radius: 50px; color: var(--neon-silver);
+            font-family: 'Orbitron'; font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn-sec:hover { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: var(--glow-blue); }
+
+        .page-head { padding: 140px 40px 40px; text-align: center; position: relative; z-index: 2; }
+        .sec-label { display: inline-block; padding: 6px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px;
+            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+        .sec-title { font-family: 'Orbitron'; font-size: clamp(2rem,4vw,3rem); font-weight: 800; margin-bottom: 12px;
+            background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
+
+        .content { max-width: 900px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 2; }
+        .step { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; margin-bottom: 20px; transition: all 0.3s; }
+        .step:hover { border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
+        .step h3 { font-family: 'Orbitron'; font-size: 1rem; color: var(--neon-blue); margin-bottom: 8px; }
+        .step p { color: var(--neon-silver); font-size: 0.9rem; line-height: 1.7; opacity: 0.9; }
+        .step a { color: var(--neon-cyan); }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 20px; max-width: 900px; margin: 0 auto 60px; padding: 0 40px; position: relative; z-index: 2; }
+        .card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; text-align: center; transition: all 0.3s; text-decoration: none; color: inherit; display: block; }
+        .card:hover { border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
+        .c-icon { font-size: 1.6rem; margin-bottom: 10px; }
+        .c-title { font-family: 'Orbitron'; font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+        .c-desc { color: var(--neon-silver); font-size: 0.8rem; line-height: 1.5; opacity: 0.8; }
+
+        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+        .f-logo { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); margin-bottom: 10px; }
+        .f-logo span { color: var(--neon-purple); font-size: 0.8rem; }
+        .f-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.8; opacity: 0.7; max-width: 280px; }
+        .f-title { font-family: 'Orbitron'; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 16px; }
+        .f-links { list-style: none; }
+        .f-links li { margin-bottom: 10px; }
+        .f-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
+        .f-links a:hover { color: var(--neon-blue); }
+        .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
+
+        @media(max-width:768px) { .nav-links { display: none; } .content { padding: 0 20px; } .cards-grid { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <nav>
+        <div class="logo">NEXUS <span>Academy</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="startup.html">Startup Resources</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">My Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-head">
+        <span class="sec-label">Fund</span>
+        <h1 class="sec-title">Startup Funding Guide</h1>
+        <p class="sec-desc">Learn how to raise money, build a pitch deck, find investors, and apply to accelerators. Curated free resources for every stage.</p>
+    </div>
+
+    <div class="content">
+        <div class="step">
+            <h3>1. Validate Before You Raise</h3>
+            <p>Investors fund traction, not ideas. Use the <a href="https://www.strategyzer.com/canvas/business-model-canvas" target="_blank">Business Model Canvas</a> and talk to 20 potential customers before touching a pitch deck.</p>
+        </div>
+        <div class="step">
+            <h3>2. Build Your Pitch Deck</h3>
+            <p>Use the <a href="https://www.ycombinator.com/library/4T-how-to-pitch-your-startup" target="_blank">Y Combinator Pitch Deck Template</a> and the <a href="https://www.sequoiacap.com/article/writing-a-business-plan/" target="_blank">Sequoia pitch guide</a>. Free, battle-tested, investor-ready.</p>
+        </div>
+        <div class="step">
+            <h3>3. Financial Model & Cap Table</h3>
+            <p>Download the <a href="https://www.wallstreetprep.com/knowledge/financial-modeling/" target="_blank">Wall Street Prep financial model templates</a> and the <a href="https://www.cartacapital.com/" target="_blank">Carta free cap table tool</a> to show investors you understand your numbers.</p>
+        </div>
+        <div class="step">
+            <h3>4. Find Investors</h3>
+            <p>AngelList, Gust, and LinkedIn are free. Target investors who have funded similar startups. Warm intros > cold emails.</p>
+        </div>
+        <div class="step">
+            <h3>5. Apply to Accelerators</h3>
+            <p>Y Combinator, Techstars, and 500 Startups are free to apply. The application process itself forces you to think clearly about your business.</p>
+        </div>
+    </div>
+
+    <div class="cards-grid" style="margin-top:40px;">
+        <a href="https://www.ycombinator.com/library/4T-how-to-pitch-your-startup" class="card" target="_blank">
+            <div class="c-icon">🎤</div>
+            <div class="c-title">YC Pitch Guide</div>
+            <div class="c-desc">How to pitch your startup by Y Combinator. Free video and templates.</div>
+        </a>
+        <a href="https://www.sequoiacap.com/article/writing-a-business-plan/" class="card" target="_blank">
+            <div class="c-icon">📄</div>
+            <div class="c-title">Sequoia Business Plan</div>
+            <div class="c-desc">How to write a business plan from Sequoia Capital. Free guide.</div>
+        </a>
+        <a href="https://www.wallstreetprep.com/knowledge/financial-modeling/" class="card" target="_blank">
+            <div class="c-icon">📊</div>
+            <div class="c-title">Financial Modeling</div>
+            <div class="c-desc">Free templates for startup financial projections and cap tables.</div>
+        </a>
+        <a href="https://gust.com/" class="card" target="_blank">
+            <div class="c-icon">💵</div>
+            <div class="c-title">Gust Funding</div>
+            <div class="c-desc">Free platform to connect with angel investors and apply to accelerators.</div>
+        </a>
+        <a href="https://angel.co/" class="card" target="_blank">
+            <div class="c-icon">👼</div>
+            <div class="c-title">AngelList</div>
+            <div class="c-desc">Free platform to find startup jobs, raise angel rounds, and recruit talent.</div>
+        </a>
+        <a href="https://www.startupschool.org/" class="card" target="_blank">
+            <div class="c-icon">🚀</div>
+            <div class="c-title">Startup School (Free)</div>
+            <div class="c-desc">Y Combinator's free 10-week course on building and funding a startup.</div>
+        </a>
+    </div>
+
+    <footer class="footer">
+        <div class="f-grid">
+            <div><div class="f-logo">NEXUS <span>Academy</span></div><p class="f-desc">Free AI and tech education hub. Curating the best free resources from the world's top platforms.</p></div>
+            <div><div class="f-title">Learn</div><ul class="f-links"><li><a href="courses.html">Courses</a></li><li><a href="startup.html">Startup Tools</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+            <div><div class="f-title">Community</div><ul class="f-links"><li><a href="community.html">Forum</a></li><li><a href="community.html#mentors">Mentors</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div><div class="f-title">Info</div><ul class="f-links"><li><a href="about.html">About Us</a></li><li><a href="https://github.com/vaniarya965/nexus-ai-landing" target="_blank">GitHub</a></li></ul></div>
+        </div>
+        <div class="f-bot">© 2026 NEXUS Academy. Built to help people learn for free.</div>
+    </footer>
+</body>
+</html>

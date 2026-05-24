@@ -7,9 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88;
-            --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08);
-            --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
+        :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88; --neon-orange: #ff9d00;
+            --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08); --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
         body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
         .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
         .bg-grid::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px; }
@@ -21,7 +20,6 @@
         .nav-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s; }
         .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--neon-blue); transition: width 0.3s; }
         .nav-links a:hover { color: var(--neon-blue); }
-        .nav-links a:hover::after { width: 100%; }
         .btn { padding: 12px 28px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 50px; color: #000;
             font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
         .btn:hover { transform: translateY(-2px); }
@@ -36,18 +34,32 @@
             background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
 
-        .content { max-width: 900px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 2; }
-        .step { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; margin-bottom: 20px; transition: all 0.3s; }
-        .step:hover { border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
-        .step h3 { font-family: 'Orbitron'; font-size: 1rem; color: var(--neon-blue); margin-bottom: 8px; }
-        .step p { color: var(--neon-silver); font-size: 0.9rem; line-height: 1.7; opacity: 0.9; }
-        .step a { color: var(--neon-cyan); }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 20px; max-width: 900px; margin: 0 auto 60px; padding: 0 40px; position: relative; z-index: 2; }
-        .card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; text-align: center; transition: all 0.3s; text-decoration: none; color: inherit; display: block; }
+        .timeline { max-width: 800px; margin: 40px auto; padding: 0 40px; position: relative; z-index: 2; }
+        .tl-item { display: flex; gap: 24px; margin-bottom: 40px; position: relative; }
+        .tl-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--neon-blue); box-shadow: var(--glow-blue); flex-shrink: 0; margin-top: 4px; }
+        .tl-line { position: absolute; left: 7px; top: 20px; bottom: -40px; width: 2px; background: linear-gradient(var(--neon-blue), transparent); }
+        .tl-content { flex: 1; }
+        .tl-content h3 { font-family: 'Orbitron'; font-size: 1.1rem; color: #fff; margin-bottom: 8px; }
+        .tl-content p { color: var(--neon-silver); font-size: 0.9rem; line-height: 1.7; margin-bottom: 12px; }
+        .tl-links { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tl-links a { padding: 6px 14px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; color: var(--neon-blue);
+            font-size: 0.75rem; text-decoration: none; font-family: 'Orbitron'; transition: all 0.3s; }
+        .tl-links a:hover { border-color: var(--neon-blue); box-shadow: var(--glow-blue); }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 2; }
+        .card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; transition: all 0.3s; }
         .card:hover { border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
-        .c-icon { font-size: 1.6rem; margin-bottom: 10px; }
-        .c-title { font-family: 'Orbitron'; font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
-        .c-desc { color: var(--neon-silver); font-size: 0.8rem; line-height: 1.5; opacity: 0.8; }
+        .c-icon { width: 44px; height: 44px; background: linear-gradient(135deg,rgba(0,240,255,0.2),rgba(179,71,255,0.2)); border: 1px solid rgba(0,240,255,0.3); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 16px; box-shadow: 0 0 12px rgba(0,240,255,0.15); }
+        .c-title { font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: 1px; }
+        .c-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.6; opacity: 0.8; margin-bottom: 12px; }
+        .c-link { color: var(--neon-green); font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 1px; text-decoration: none; }
+        .c-link:hover { text-shadow: 0 0 10px var(--neon-green); }
+
+        .amount-tag { display: inline-block; padding: 4px 12px; background: rgba(0,255,136,0.1); border: 1px solid var(--neon-green); border-radius: 20px; color: var(--neon-green);
+            font-family: 'Orbitron'; font-size: 0.7rem; margin-bottom: 10px; }
+        .stage-tag { display: inline-block; padding: 4px 12px; background: rgba(0,240,255,0.1); border: 1px solid var(--neon-blue); border-radius: 20px; color: var(--neon-blue);
+            font-family: 'Orbitron'; font-size: 0.7rem; margin-bottom: 10px; }
 
         .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
         .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
@@ -61,7 +73,7 @@
         .f-links a:hover { color: var(--neon-blue); }
         .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
 
-        @media(max-width:768px) { .nav-links { display: none; } .content { padding: 0 20px; } .cards-grid { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
+        @media(max-width:768px) { .nav-links { display: none; } .timeline { padding: 0 20px; } .cards-grid { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
     </style>
 </head>
 <body>
@@ -72,7 +84,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="courses.html">Courses</a></li>
-            <li><a href="startup.html">Startup Resources</a></li>
+            <li><a href="startup.html">Startup</a></li>
             <li><a href="community.html">Community</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">My Dashboard</a></li>
@@ -80,65 +92,135 @@
     </nav>
 
     <div class="page-head">
-        <span class="sec-label">Fund</span>
-        <h1 class="sec-title">Startup Funding Guide</h1>
-        <p class="sec-desc">Learn how to raise money, build a pitch deck, find investors, and apply to accelerators. Curated free resources for every stage.</p>
+        <span class="sec-label">Funding Guide</span>
+        <h1 class="sec-title">Startup Funding Roadmap</h1>
+        <p class="sec-desc">From $0 to IPO. Every funding stage explained with real platforms, free resources, and what you need at each step.</p>
     </div>
 
-    <div class="content">
-        <div class="step">
-            <h3>1. Validate Before You Raise</h3>
-            <p>Investors fund traction, not ideas. Use the <a href="https://www.strategyzer.com/canvas/business-model-canvas" target="_blank">Business Model Canvas</a> and talk to 20 potential customers before touching a pitch deck.</p>
+    <div class="timeline">
+        <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+            <div class="tl-content">
+                <span class="stage-tag">Stage 0</span>
+                <h3>Bootstrapping — $0 to $10K</h3>
+                <p>Start with your own savings, revenue from early customers, or small loans from friends and family. Focus on building an MVP and getting first paying customers.</p>
+                <div class="tl-links">
+                    <a href="https://www.indiehackers.com/" target="_blank">Indie Hackers</a>
+                    <a href="https://www.stripe.com/atlas" target="_blank">Stripe Atlas</a>
+                    <a href="https://www.gusto.com/" target="_blank">Gusto Payroll</a>
+                </div>
+            </div>
         </div>
-        <div class="step">
-            <h3>2. Build Your Pitch Deck</h3>
-            <p>Use the <a href="https://www.ycombinator.com/library/4T-how-to-pitch-your-startup" target="_blank">Y Combinator Pitch Deck Template</a> and the <a href="https://www.sequoiacap.com/article/writing-a-business-plan/" target="_blank">Sequoia pitch guide</a>. Free, battle-tested, investor-ready.</p>
+        <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+            <div class="tl-content">
+                <span class="stage-tag">Pre-Seed</span>
+                <span class="amount-tag">$10K — $250K</span>
+                <h3>Pre-Seed Funding</h3>
+                <p>Angel investors, accelerators (YC, Techstars, 500 Startups), and crowdfunding. You need a working prototype and early traction metrics.</p>
+                <div class="tl-links">
+                    <a href="https://www.ycombinator.com/" target="_blank">Y Combinator</a>
+                    <a href="https://www.techstars.com/" target="_blank">Techstars</a>
+                    <a href="https://www.angel.co/" target="_blank">AngelList</a>
+                    <a href="https://www.kickstarter.com/" target="_blank">Kickstarter</a>
+                </div>
+            </div>
         </div>
-        <div class="step">
-            <h3>3. Financial Model & Cap Table</h3>
-            <p>Download the <a href="https://www.wallstreetprep.com/knowledge/financial-modeling/" target="_blank">Wall Street Prep financial model templates</a> and the <a href="https://www.cartacapital.com/" target="_blank">Carta free cap table tool</a> to show investors you understand your numbers.</p>
+        <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+            <div class="tl-content">
+                <span class="stage-tag">Seed</span>
+                <span class="amount-tag">$250K — $5M</span>
+                <h3>Seed Round</h3>
+                <p>Seed funds, micro-VCs, and syndicates. You need product-market fit signals: retention, revenue growth, and a clear go-to-market strategy.</p>
+                <div class="tl-links">
+                    <a href="https://www.sequoiacap.com/" target="_blank">Sequoia Scout</a>
+                    <a href="https://www.firstround.com/" target="_blank">First Round</a>
+                    <a href="https://www.betterventures.com/" target="_blank">Better Ventures</a>
+                    <a href="https://www.angellist.com/syndicates" target="_blank">AngelList Syndicates</a>
+                </div>
+            </div>
         </div>
-        <div class="step">
-            <h3>4. Find Investors</h3>
-            <p>AngelList, Gust, and LinkedIn are free. Target investors who have funded similar startups. Warm intros > cold emails.</p>
+        <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+            <div class="tl-content">
+                <span class="stage-tag">Series A</span>
+                <span class="amount-tag">$5M — $50M</span>
+                <h3>Series A</h3>
+                <p>Major VC firms. You need proven revenue ($1M+ ARR), strong unit economics, and a scalable business model. This is the make-or-break round.</p>
+                <div class="tl-links">
+                    <a href="https://www.benchmark.com/" target="_blank">Benchmark</a>
+                    <a href="https://www.accel.com/" target="_blank">Accel</a>
+                    <a href="https://www.a16z.com/" target="_blank">a16z</a>
+                    <a href="https://www.bessemerventures.com/" target="_blank">Bessemer</a>
+                </div>
+            </div>
         </div>
-        <div class="step">
-            <h3>5. Apply to Accelerators</h3>
-            <p>Y Combinator, Techstars, and 500 Startups are free to apply. The application process itself forces you to think clearly about your business.</p>
+        <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-line" style="display:none;"></div>
+            <div class="tl-content">
+                <span class="stage-tag">Series B+</span>
+                <span class="amount-tag">$50M+</span>
+                <h3>Series B, C, and Beyond</h3>
+                <p>Growth equity, late-stage VCs, private equity, and eventually IPO. Focus on market expansion, acquisitions, and profitability.</p>
+                <div class="tl-links">
+                    <a href="https://www.tigerglobal.com/" target="_blank">Tiger Global</a>
+                    <a href="https://www.softbank.com/" target="_blank">SoftBank Vision</a>
+                    <a href="https://www.nasdaq.com/" target="_blank">NASDAQ IPO Guide</a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="cards-grid" style="margin-top:40px;">
-        <a href="https://www.ycombinator.com/library/4T-how-to-pitch-your-startup" class="card" target="_blank">
-            <div class="c-icon">🎤</div>
-            <div class="c-title">YC Pitch Guide</div>
-            <div class="c-desc">How to pitch your startup by Y Combinator. Free video and templates.</div>
-        </a>
-        <a href="https://www.sequoiacap.com/article/writing-a-business-plan/" class="card" target="_blank">
-            <div class="c-icon">📄</div>
-            <div class="c-title">Sequoia Business Plan</div>
-            <div class="c-desc">How to write a business plan from Sequoia Capital. Free guide.</div>
-        </a>
-        <a href="https://www.wallstreetprep.com/knowledge/financial-modeling/" class="card" target="_blank">
-            <div class="c-icon">📊</div>
-            <div class="c-title">Financial Modeling</div>
-            <div class="c-desc">Free templates for startup financial projections and cap tables.</div>
-        </a>
-        <a href="https://gust.com/" class="card" target="_blank">
-            <div class="c-icon">💵</div>
-            <div class="c-title">Gust Funding</div>
-            <div class="c-desc">Free platform to connect with angel investors and apply to accelerators.</div>
-        </a>
-        <a href="https://angel.co/" class="card" target="_blank">
-            <div class="c-icon">👼</div>
-            <div class="c-title">AngelList</div>
-            <div class="c-desc">Free platform to find startup jobs, raise angel rounds, and recruit talent.</div>
-        </a>
-        <a href="https://www.startupschool.org/" class="card" target="_blank">
-            <div class="c-icon">🚀</div>
-            <div class="c-title">Startup School (Free)</div>
-            <div class="c-desc">Y Combinator's free 10-week course on building and funding a startup.</div>
-        </a>
+    <div style="padding: 60px 40px 40px; position: relative; z-index: 2;">
+        <div class="sec-head" style="text-align:center;margin-bottom:40px;">
+            <span class="sec-label">Resources</span>
+            <h2 class="sec-title">Free Funding Resources</h2>
+            <p class="sec-desc">Tools, templates, and guides to help you raise money without paying consultants.</p>
+        </div>
+        <div class="cards-grid">
+            <a href="https://www.ycombinator.com/library" class="card" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="c-icon">📚</div>
+                <div class="c-title">YC Startup Library</div>
+                <div class="c-desc">500+ free articles on fundraising, product, growth, and management from Y Combinator.</div>
+                <div class="c-link">Read Free →</div>
+            </a>
+            <a href="https://www.pandadoc.com/template/business-proposal-template/" class="card" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="c-icon">📄</div>
+                <div class="c-title">Investor Pitch Templates</div>
+                <div class="c-desc">Free pitch deck and business proposal templates used by funded startups.</div>
+                <div class="c-link">Get Templates →</div>
+            </a>
+            <a href="https://www.wallstreetprep.com/knowledge/financial-modeling/" class="card" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="c-icon">📊</div>
+                <div class="c-title">Financial Modeling Course</div>
+                <div class="c-desc">Free crash course on startup financial models, cap tables, and valuation.</div>
+                <div class="c-link">Learn Free →</div>
+            </a>
+            <a href="https://www.termsheet.io/" class="card" target="blank" style="text-decoration:none;color:inherit;">
+                <div class="c-icon">⚖️</div>
+                <div class="c-title">Term Sheet Generator</div>
+                <div class="c-desc">Free tool to generate standard term sheets for seed and Series A rounds.</div>
+                <div class="c-link">Generate Free →</div>
+            </a>
+            <a href="https://www.crunchbase.com/" class="card" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="c-icon">🔍</div>
+                <div class="c-title">Crunchbase Free</div>
+                <div class="c-desc">Track funded startups, find investor emails, and research market trends.</div>
+                <div class="c-link">Search Free →</div>
+            </a>
+            <a href="https://www.carta.com/" class="card" target="_blank" style="text-decoration:none;color:inherit;">
+                <div class="c-icon">📈</div>
+                <div class="c-title">Carta (Free Cap Table)</div>
+                <div class="c-desc">Free cap table management for startups with up to 25 stakeholders.</div>
+                <div class="c-link">Start Free →</div>
+            </a>
+        </div>
     </div>
 
     <footer class="footer">

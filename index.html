@@ -2131,35 +2131,39 @@
         document.querySelectorAll('button').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 const text = this.textContent.trim().toLowerCase();
+                const isPricing = this.closest('.pricing-card');
 
-                // Hero & CTA buttons → scroll to pricing
-                if (text.includes('deploy') || text.includes('get started') || text.includes('deploy nexus')) {
-                    e.preventDefault();
-                    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    return;
-                }
-
-                // Watch Demo → scroll to dashboard
-                if (text.includes('watch demo') || text.includes('demo')) {
-                    e.preventDefault();
-                    document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    return;
-                }
-
-                // Pricing buttons
-                if (text.includes('deploy now')) {
+                // ===== PRICING BUTTONS (check FIRST — most specific) =====
+                if (text.includes('deploy now') && isPricing) {
                     e.preventDefault();
                     showToast('🚀 NEXUS Pro deployment initiated. Welcome to the future.');
                     return;
                 }
-                if (text.includes('get started') && this.closest('.pricing-card')) {
+                if (text.includes('get started') && isPricing) {
                     e.preventDefault();
                     showToast('✨ Starter plan activated. Your AI agent is online.');
                     return;
                 }
-                if (text.includes('contact sales') || text.includes('enterprise')) {
+                if (text.includes('contact sales') && isPricing) {
                     e.preventDefault();
                     showToast('📞 Enterprise request received. Our team will contact you within 1 hour.');
+                    return;
+                }
+
+                // ===== HERO & NAV BUTTONS (generic — check AFTER pricing) =====
+                if (text.includes('deploy nexus')) {
+                    e.preventDefault();
+                    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    return;
+                }
+                if (text.includes('get started') && !isPricing) {
+                    e.preventDefault();
+                    document.getElementById('pricing').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    return;
+                }
+                if (text.includes('watch demo') || text.includes('demo')) {
+                    e.preventDefault();
+                    document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth', block: 'start' });
                     return;
                 }
 

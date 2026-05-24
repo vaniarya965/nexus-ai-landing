@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses — NEXUS Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88; --neon-orange: #ff9d00;
+            --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08);
+            --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
+        body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
+        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
+        .bg-grid::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px; }
+        nav { position: fixed; top:0; left:0; right:0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,8,0.95), transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px; }
+        .logo span { color: var(--neon-purple); font-size: 0.85rem; }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--neon-blue); transition: width 0.3s; }
+        .nav-links a:hover { color: var(--neon-blue); }
+        .nav-links a:hover::after { width: 100%; }
+        .btn { padding: 12px 28px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 50px; color: #000;
+            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-sec { padding: 12px 28px; background: transparent; border: 1px solid var(--glass-border); border-radius: 50px; color: var(--neon-silver);
+            font-family: 'Orbitron'; font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn-sec:hover { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: var(--glow-blue); }
+
+        .page-head { padding: 140px 40px 40px; text-align: center; position: relative; z-index: 2; }
+        .sec-label { display: inline-block; padding: 6px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px;
+            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+        .sec-title { font-family: 'Orbitron'; font-size: clamp(2rem,4vw,3rem); font-weight: 800; margin-bottom: 12px;
+            background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
+
+        .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+        .tab-btn { padding: 10px 22px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px; color: var(--neon-silver);
+            font-family: 'Inter'; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; }
+        .tab-btn:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+        .tab-btn.active { background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); color: #000; border-color: transparent; font-weight: 600; }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 2; }
+        .card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; transition: all 0.3s;
+            backdrop-filter: blur(15px); text-decoration: none; color: inherit; display: block; }
+        .card:hover { transform: translateY(-5px); border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
+        .c-icon { width: 44px; height: 44px; background: linear-gradient(135deg,rgba(0,240,255,0.2),rgba(179,71,255,0.2));
+            border: 1px solid rgba(0,240,255,0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; margin-bottom: 16px; box-shadow: 0 0 12px rgba(0,240,255,0.15); }
+        .c-title { font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: 1px; }
+        .c-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
+        .c-meta { display: flex; gap: 12px; margin-top: 14px; font-size: 0.7rem; color: var(--neon-blue); font-family: 'Orbitron'; }
+        .c-link { color: var(--neon-cyan); font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 1px; margin-top: 12px; display: inline-block; }
+
+        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+        .f-logo { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); margin-bottom: 10px; }
+        .f-logo span { color: var(--neon-purple); font-size: 0.8rem; }
+        .f-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.8; opacity: 0.7; max-width: 280px; }
+        .f-title { font-family: 'Orbitron'; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 16px; }
+        .f-links { list-style: none; }
+        .f-links li { margin-bottom: 10px; }
+        .f-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
+        .f-links a:hover { color: var(--neon-blue); }
+        .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
+
+        @media(max-width:768px) { .nav-links { display: none; } .cards-grid { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <nav>
+        <div class="logo">NEXUS <span>Academy</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="startup.html">Startup Resources</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">My Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-head">
+        <span class="sec-label">Learn</span>
+        <h1 class="sec-title">Courses Library</h1>
+        <p class="sec-desc">Real free courses from Harvard, Google, Y Combinator, fast.ai, and more. Click any card to start.</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="filter('all')">All</button>
+        <button class="tab-btn" onclick="filter('ai')">🤖 AI</button>
+        <button class="tab-btn" onclick="filter('coding')">💻 Coding</button>
+        <button class="tab-btn" onclick="filter('business')">💼 Business</button>
+        <button class="tab-btn" onclick="filter('startup')">🚀 Startups</button>
+        <button class="tab-btn" onclick="filter('finance')">📈 Finance</button>
+        <button class="tab-btn" onclick="filter('marketing')">📢 Marketing</button>
+    </div>
+
+    <div class="cards-grid" id="grid"></div>
+
+    <div style="text-align:center;padding:40px;position:relative;z-index:2;">
+        <a href="dashboard.html" class="btn">Track Progress in Dashboard</a>
+    </div>
+
+    <footer class="footer">
+        <div class="f-grid">
+            <div><div class="f-logo">NEXUS <span>Academy</span></div><p class="f-desc">Free AI and tech education hub. Curating the best free resources from the world's top platforms.</p></div>
+            <div><div class="f-title">Learn</div><ul class="f-links"><li><a href="courses.html">Courses</a></li><li><a href="startup.html">Startup Tools</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+            <div><div class="f-title">Community</div><ul class="f-links"><li><a href="community.html">Forum</a></li><li><a href="community.html#mentors">Mentors</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div><div class="f-title">Info</div><ul class="f-links"><li><a href="about.html">About Us</a></li><li><a href="https://github.com/vaniarya965/nexus-ai-landing" target="_blank">GitHub</a></li></ul></div>
+        </div>
+        <div class="f-bot">© 2026 NEXUS Academy. Built to help people learn for free.</div>
+    </footer>
+
+    <script>
+    const courses = [
+        { cat:'ai', title:'AI For Everyone', icon:'🤖', desc:"Andrew Ng's free Coursera course. Understand AI strategy and build AI-powered companies.", meta:'🎓 Coursera | 🆓 Audit Free', link:'https://www.coursera.org/learn/ai-for-everyone' },
+        { cat:'ai', title:'fast.ai Deep Learning', icon:'🧠', desc:'Learn to build real AI models with Python. No PhD required.', meta:'🎓 fast.ai | 💻 Code', link:'https://www.fast.ai/' },
+        { cat:'ai', title:'Google AI & ML Intro', icon:'⚡', desc:"Google's official free course. Includes a free certificate.", meta:'🎓 Google | 📜 Certificate', link:'https://learndigital.withgoogle.com/digitalgarage/course/intro-to-ai-ml' },
+        { cat:'ai', title:'ChatGPT Prompt Engineering', icon:'💬', desc:'freeCodeCamp guide to ChatGPT prompting and use cases.', meta:'📖 freeCodeCamp', link:'https://www.freecodecamp.org/news/what-is-chatgpt-and-how-to-use-it/' },
+        { cat:'ai', title:'AI Art with Midjourney', icon:'🎨', desc:'Complete guide to Midjourney, DALL-E 3, Stable Diffusion.', meta:'▶ YouTube | 🆓 Free Tools', link:'https://www.youtube.com/watch?v=dzftT4ZW6No' },
+        { cat:'coding', title:'Python Full Course', icon:'🐍', desc:'freeCodeCamp 6-hour Python tutorial. 40M+ views.', meta:'▶ YouTube | ⏱ 6 Hours', link:'https://www.youtube.com/watch?v=rfscVS0vtbw' },
+        { cat:'coding', title:'The Odin Project', icon:'🌐', desc:'Free full-stack web dev. HTML, CSS, JS, React, Node.js.', meta:'🌐 Free Forever', link:'https://www.theodinproject.com/' },
+        { cat:'coding', title:'SQLBolt — Learn SQL', icon:'🗄️', desc:'Interactive SQL lessons in browser. No setup needed.', meta:'🌐 Interactive | Free', link:'https://sqlbolt.com/' },
+        { cat:'coding', title:'Git & GitHub Crash Course', icon:'🛠️', desc:'Traversy Media. Commits, branches, pull requests.', meta:'▶ YouTube | ⏱ 1.5 Hours', link:'https://www.youtube.com/watch?v=hwP7WQkmECE' },
+        { cat:'startup', title:'How to Start a Startup', icon:'🚀', desc:"Y Combinator's legendary course. 20 lectures from Sam Altman.", meta:'🎓 Y Combinator | Free', link:'https://www.startupschool.org/' },
+        { cat:'business', title:'Business Model Canvas', icon:'📋', desc:'Strategyzer free tools to design and test business models.', meta:'📄 Free Templates', link:'https://www.strategyzer.com/canvas/business-model-canvas' },
+        { cat:'marketing', title:'Digital Marketing Free', icon:'📢', desc:'Google Digital Garage. SEO, SEM, social media, analytics.', meta:'🎓 Google | 📜 Certificate', link:'https://learndigital.withgoogle.com/digitalgarage/course/digital-marketing' },
+        { cat:'finance', title:'Financial Literacy', icon:'💰', desc:'Khan Academy free course. Personal finance, investing, taxes.', meta:'🎓 Khan Academy | Free', link:'https://www.khanacademy.org/college-careers-more/talks-and-interviews/talks-and-interviews-unit/conversations-with-sal-a-financial-literacy' },
+        { cat:'finance', title:'Startup Financial Modeling', icon:'📊', desc:'Free spreadsheet templates for projections and cap tables.', meta:'📄 Free Templates', link:'https://www.wallstreetprep.com/knowledge/financial-modeling/' },
+        { cat:'marketing', title:'AI for Marketing & SEO', icon:'🔍', desc:"Krish Naik's YouTube playlist on AI-powered digital marketing.", meta:'▶ YouTube | 📹 20+ Videos', link:'https://www.youtube.com/playlist?list=PLZoTAELRMXVPGmTlKTBqxwSCz8ja4R0' },
+    ];
+
+    function filter(cat) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        const filtered = cat === 'all' ? courses : courses.filter(c => c.cat === cat);
+        document.getElementById('grid').innerHTML = filtered.map(c => `
+            <a href="${c.link}" class="card" target="_blank">
+                <div class="c-icon">${c.icon}</div>
+                <div class="c-title">${c.title}</div>
+                <div class="c-desc">${c.desc}</div>
+                <div class="c-meta">${c.meta}</div>
+                <div class="c-link">Start Free →</div>
+            </a>
+        `).join('');
+    }
+    filter('all');
+    </script>
+</body>
+</html>

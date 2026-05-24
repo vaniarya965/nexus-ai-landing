@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Resources — NEXUS Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88;
+            --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08); --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
+        body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
+        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
+        .bg-grid::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px; }
+        nav { position: fixed; top:0; left:0; right:0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,8,0.95), transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px; }
+        .logo span { color: var(--neon-purple); font-size: 0.85rem; }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--neon-blue); transition: width 0.3s; }
+        .nav-links a:hover { color: var(--neon-blue); }
+        .nav-links a:hover::after { width: 100%; }
+        .btn { padding: 12px 28px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 50px; color: #000;
+            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); }
+
+        .page-head { padding: 140px 40px 40px; text-align: center; position: relative; z-index: 2; }
+        .sec-label { display: inline-block; padding: 6px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px;
+            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+        .sec-title { font-family: 'Orbitron'; font-size: clamp(2rem,4vw,3rem); font-weight: 800; margin-bottom: 12px;
+            background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
+
+        .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+        .tab-btn { padding: 10px 22px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px; color: var(--neon-silver);
+            font-family: 'Inter'; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; }
+        .tab-btn:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+        .tab-btn.active { background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); color: #000; border-color: transparent; font-weight: 600; }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 2; }
+        .card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; transition: all 0.3s;
+            backdrop-filter: blur(15px); text-decoration: none; color: inherit; display: block; }
+        .card:hover { transform: translateY(-5px); border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
+        .c-icon { width: 44px; height: 44px; background: linear-gradient(135deg,rgba(0,240,255,0.2),rgba(179,71,255,0.2));
+            border: 1px solid rgba(0,240,255,0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; margin-bottom: 16px; box-shadow: 0 0 12px rgba(0,240,255,0.15); }
+        .c-title { font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: 1px; }
+        .c-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
+        .c-link { color: var(--neon-green); font-family: 'Orbitron'; font-size: 0.75rem; letter-spacing: 1px; margin-top: 12px; display: inline-block; }
+
+        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+        .f-logo { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); margin-bottom: 10px; }
+        .f-logo span { color: var(--neon-purple); font-size: 0.8rem; }
+        .f-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.8; opacity: 0.7; max-width: 280px; }
+        .f-title { font-family: 'Orbitron'; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 16px; }
+        .f-links { list-style: none; }
+        .f-links li { margin-bottom: 10px; }
+        .f-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
+        .f-links a:hover { color: var(--neon-blue); }
+        .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
+
+        @media(max-width:768px) { .nav-links { display: none; } .cards-grid { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <nav>
+        <div class="logo">NEXUS <span>Academy</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="startup.html">Startup Resources</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">My Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-head">
+        <span class="sec-label">Build</span>
+        <h1 class="sec-title">Startup Resources</h1>
+        <p class="sec-desc">Free business plan templates, AI tools, pitch decks, funding guides, and startup courses. Everything you need to launch — at zero cost.</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="filter('all')">All Tools</button>
+        <button class="tab-btn" onclick="filter('templates')">📄 Templates</button>
+        <button class="tab-btn" onclick="filter('ai')">🤖 AI Tools</button>
+        <button class="tab-btn" onclick="filter('startup')">🚀 Startup</button>
+        <button class="tab-btn" onclick="filter('funding')">💰 Funding</button>
+        <button class="tab-btn" onclick="filter('design')">🎨 Design</button>
+    </div>
+
+    <div class="cards-grid" id="grid"></div>
+
+    <div style="text-align:center;padding:50px 40px;position:relative;z-index:2;">
+        <p style="color:var(--neon-silver);font-size:0.9rem;margin-bottom:16px;">Know a free tool we should add? Let us know.</p>
+        <a href="contact.html" class="btn">Suggest a Tool</a>
+    </div>
+
+    <footer class="footer">
+        <div class="f-grid">
+            <div><div class="f-logo">NEXUS <span>Academy</span></div><p class="f-desc">Free AI and tech education hub. Curating the best free resources from the world's top platforms.</p></div>
+            <div><div class="f-title">Learn</div><ul class="f-links"><li><a href="courses.html">Courses</a></li><li><a href="startup.html">Startup Tools</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+            <div><div class="f-title">Community</div><ul class="f-links"><li><a href="community.html">Forum</a></li><li><a href="community.html#mentors">Mentors</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div><div class="f-title">Info</div><ul class="f-links"><li><a href="about.html">About Us</a></li><li><a href="https://github.com/vaniarya965/nexus-ai-landing" target="_blank">GitHub</a></li></ul></div>
+        </div>
+        <div class="f-bot">© 2026 NEXUS Academy. Built to help people learn for free.</div>
+    </footer>
+
+    <script>
+    const tools = [
+        { cat:'templates', title:'Business Plan Template (SBA)', icon:'📄', desc:'Free SBA fill-in-the-blank business plan for any startup. Official US government format.', link:'https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan' },
+        { cat:'templates', title:'Lean Canvas Template', icon:'📋', desc:'One-page business model template optimized for startups. Faster than traditional canvas.', link:'https://leanstack.com/leancanvas' },
+        { cat:'templates', title:'YC Pitch Deck Template', icon:'🎤', desc:'Y Combinator standard pitch deck format. Used by Airbnb, Dropbox, and thousands of startups.', link:'https://www.ycombinator.com/library/4T-how-to-pitch-your-startup' },
+        { cat:'templates', title:'Financial Model Template', icon:'📊', desc:'Free spreadsheet templates for startup projections, cap tables, and fundraising.', link:'https://www.wallstreetprep.com/knowledge/financial-modeling/' },
+        { cat:'ai', title:'ChatGPT (Free Tier)', icon:'🤖', desc:'OpenAI ChatGPT free plan. Use for writing, coding, analysis, and research.', link:'https://chat.openai.com/' },
+        { cat:'ai', title:'Claude by Anthropic (Free)', icon:'🧠', desc:'Anthropic Claude free tier. Powerful AI assistant for long documents and coding.', link:'https://claude.ai/' },
+        { cat:'ai', title:'Canva Free + AI Design', icon:'🎨', desc:'Design social posts, presentations, logos with AI-powered features.', link:'https://www.canva.com/' },
+        { cat:'startup', title:'Notion (Free Tier)', icon:'📝', desc:'All-in-one workspace for notes, projects, wikis. Free for personal use.', link:'https://www.notion.so/product' },
+        { cat:'startup', title:'Figma (Free)', icon:'🖌️', desc:'Collaborative design tool. Build prototypes, wireframes, and UI for free.', link:'https://www.figma.com/' },
+        { cat:'startup', title:'Trello (Free)', icon:'📌', desc:'Kanban boards for project management. Free for small teams forever.', link:'https://trello.com/' },
+        { cat:'startup', title:'Google for Startups', icon:'☁️', desc:'Free credits, mentorship, resources. Up to $100K in cloud credits.', link:'https://startup.google.com/' },
+        { cat:'startup', title:'Wave Accounting (Free)', icon:'📈', desc:'Free accounting software. Invoicing, receipts, reports for small business.', link:'https://www.waveapps.com/' },
+        { cat:'funding', title:'Gust Funding Platform', icon:'💵', desc:'Connect with investors, apply to accelerators, manage fundraising.', link:'https://gust.com/' },
+        { cat:'funding', title:'AngelList (Free)', icon:'👼', desc:'Find startup jobs, recruit talent, and raise angel funding.', link:'https://angel.co/' },
+        { cat:'funding', title:'Kickstarter Guide', icon:'🚀', desc:'Learn how to run a successful crowdfunding campaign. Free guides and resources.', link:'https://www.kickstarter.com/help' },
+        { cat:'design', title:'Unsplash (Free Images)', icon:'📷', desc:'Free high-quality stock photos for your website, pitch deck, and marketing.', link:'https://unsplash.com/' },
+        { cat:'design', title:'Google Fonts', icon:'🔤', desc:'Free web fonts for your startup website. 1000+ open-source font families.', link:'https://fonts.google.com/' },
+        { cat:'design', title:'Draw.io (Free)', icon:'📐', desc:'Free online diagram tool. Flowcharts, wireframes, org charts, mind maps.', link:'https://app.diagrams.net/' },
+    ];
+
+    function filter(cat) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        const filtered = cat === 'all' ? tools : tools.filter(t => t.cat === cat);
+        document.getElementById('grid').innerHTML = filtered.map(t => `
+            <a href="${t.link}" class="card" target="_blank">
+                <div class="c-icon">${t.icon}</div>
+                <div class="c-title">${t.title}</div>
+                <div class="c-desc">${t.desc}</div>
+                <div class="c-link">Open Tool →</div>
+            </a>
+        `).join('');
+    }
+    filter('all');
+    </script>
+</body>
+</html>

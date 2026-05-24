@@ -3,152 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard — NEXUS Academy</title>
+    <title>My Dashboard — NEXUS Academy</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88;
             --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08);
-            --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
-        body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
+            --glow-blue: 0 0 20px rgba(0,240,255,0.4); --sidebar-w: 260px; }
+        body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; min-height: 100vh; }
         .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
         .bg-grid::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px; }
-        nav { position: fixed; top:0; left:0; right:0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
-            background: linear-gradient(to bottom, rgba(5,5,8,0.95), transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
-        .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px; }
-        .logo span { color: var(--neon-purple); font-size: 0.85rem; }
-        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
-        .nav-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--neon-blue); transition: width 0.3s; }
-        .nav-links a:hover { color: var(--neon-blue); }
-        .nav-links a:hover::after { width: 100%; }
-        .btn { padding: 12px 28px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 50px; color: #000;
-            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
-        .btn:hover { transform: translateY(-2px); }
 
-        .page-head { padding: 140px 40px 40px; text-align: center; position: relative; z-index: 2; }
+        /* Sidebar */
+        .sidebar { width: var(--sidebar-w); background: var(--darker-bg); border-right: 1px solid var(--glass-border); position: fixed; top:0; left:0; bottom:0; z-index: 100;
+            padding: 20px 0; overflow-y: auto; transition: transform 0.3s; }
+        .sb-head { padding: 0 20px 20px; border-bottom: 1px solid var(--glass-border); }
+        .sb-logo { font-family: 'Orbitron'; font-size: 1.2rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 2px; }
+        .sb-logo span { color: var(--neon-purple); font-size: 0.7rem; }
+        .sb-user { display: flex; align-items: center; gap: 12px; padding: 20px; border-bottom: 1px solid var(--glass-border); }
+        .sb-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron'; font-weight: 700; color: #000; font-size: 1rem; }
+        .sb-info h4 { font-size: 0.9rem; color: #fff; margin-bottom: 2px; }
+        .sb-info p { font-size: 0.75rem; color: var(--neon-silver); }
+        .sb-nav { padding: 10px 0; }
+        .sb-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; cursor: pointer; transition: all 0.3s; color: var(--neon-silver); font-size: 0.9rem; font-weight: 500; text-decoration: none; }
+        .sb-item:hover { background: var(--glass-bg); color: var(--neon-blue); }
+        .sb-item.active { background: linear-gradient(90deg,rgba(0,240,255,0.1),transparent); color: var(--neon-blue); border-right: 2px solid var(--neon-blue); }
+        .sb-item .icon { font-size: 1.2rem; }
+        .sb-foot { padding: 15px 20px; border-top: 1px solid var(--glass-border); position: sticky; bottom: 0; background: var(--darker-bg); }
+        .logout { width: 100%; padding: 10px; background: transparent; border: 1px solid rgba(255,0,0,0.3); border-radius: 8px; color: #ff6b6b; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; }
+        .logout:hover { background: rgba(255,0,0,0.1); }
+
+        /* Main */
+        .main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; padding: 30px; position: relative; z-index: 2; }
+        .content { display: none; animation: fadeIn 0.4s; }
+        .content.active { display: block; }
+        @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; } }
+
         .sec-label { display: inline-block; padding: 6px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px;
             font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
-        .sec-title { font-family: 'Orbitron'; font-size: clamp(2rem,4vw,3rem); font-weight: 800; margin-bottom: 12px;
+        .sec-title { font-family: 'Orbitron'; font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;
             background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
+        .sec-desc { color: var(--neon-silver); font-size: 0.9rem; opacity: 0.8; margin-bottom: 24px; }
 
-        .dash-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 2; }
-        .dash-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; transition: all 0.3s; }
-        .dash-card:hover { transform: translateY(-5px); border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
-        .d-icon { font-size: 1.8rem; margin-bottom: 12px; }
-        .d-title { font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-        .d-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
-        .d-count { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); margin-top: 8px; }
-        .list { list-style: none; }
-        .list li { padding: 10px 0; border-bottom: 1px solid var(--glass-border); color: var(--neon-silver); font-size: 0.85rem; display: flex; justify-content: space-between; }
-        .list li:last-child { border-bottom: none; }
-        .empty { color: var(--neon-silver); opacity: 0.4; font-size: 0.9rem; text-align: center; padding: 20px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 16px; margin-bottom: 32px; }
+        .stat { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; text-align: center; }
+        .stat-num { font-family: 'Orbitron'; font-size: 2rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); }
+        .stat-lbl { font-size: 0.8rem; color: var(--neon-silver); margin-top: 4px; }
 
-        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
-        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
-        .f-logo { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); margin-bottom: 10px; }
-        .f-logo span { color: var(--neon-purple); font-size: 0.8rem; }
-        .f-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.8; opacity: 0.7; max-width: 280px; }
-        .f-title { font-family: 'Orbitron'; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 16px; }
-        .f-links { list-style: none; }
-        .f-links li { margin-bottom: 10px; }
-        .f-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
-        .f-links a:hover { color: var(--neon-blue); }
-        .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 16px; margin-bottom: 32px; }
+        .card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 22px; transition: all 0.3s; }
+        .card:hover { border-color: rgba(0,240,255,0.3); box-shadow: 0 10px 30px rgba(0,240,255,0.08); }
+        .c-icon { width: 40px; height: 40px; background: linear-gradient(135deg,rgba(0,240,255,0.2),rgba(179,71,255,0.2));
+            border: 1px solid rgba(0,240,255,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; margin-bottom: 12px; box-shadow: 0 0 10px rgba(0,240,255,0.1); }
+        .c-title { font-family: 'Orbitron'; font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .c-desc { color: var(--neon-silver); font-size: 0.8rem; line-height: 1.5; opacity: 0.8; }
+        .c-meta { display: flex; gap: 10px; margin-top: 10px; font-size: 0.7rem; color: var(--neon-blue); font-family: 'Orbitron'; }
 
-        @media(max-width:768px) { .nav-links { display: none; } .dash-grid { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
+        .notes-area { width: 100%; min-height: 160px; padding: 16px; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 14px;
+            color: #fff; font-family: 'Inter'; font-size: 0.9rem; outline: none; resize: vertical; line-height: 1.7; margin-bottom: 10px; }
+        .notes-area:focus { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0,240,255,0.08); }
+        .notes-area::placeholder { color: var(--neon-silver); opacity: 0.5; }
+        .save-btn { padding: 10px 24px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 8px; color: #000;
+            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; }
+        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,240,255,0.3); }
+        .note-item { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; margin-bottom: 10px; position: relative; }
+        .note-item p { font-size: 0.85rem; color: var(--neon-silver); line-height: 1.6; }
+        .note-date { font-size: 0.7rem; color: var(--neon-silver); opacity: 0.5; margin-top: 6px; }
+        .note-del { position: absolute; top: 8px; right: 8px; background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 1rem; opacity: 0; transition: opacity 0.3s; }
+        .note-item:hover .note-del { opacity: 1; }
+
+        .quiz-opt { display: block; width: 100%; padding: 12px 16px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 10px;
+            color: var(--neon-silver); text-align: left; font-family: 'Inter'; font-size: 0.9rem; cursor: pointer; margin-bottom: 8px; transition: all 0.3s; }
+        .quiz-opt:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+        .quiz-opt.correct { border-color: var(--neon-green); color: var(--neon-green); background: rgba(0,255,136,0.08); }
+        .quiz-opt.wrong { border-color: #ff6b6b; color: #ff6b6b; background: rgba(255,0,0,0.06); }
+        .quiz-q { font-size: 1rem; font-weight: 600; margin-bottom: 16px; color: #fff; }
+
+        .tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { padding: 8px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px; color: var(--neon-silver);
+            font-family: 'Inter'; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; }
+        .tab-btn:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+        .tab-btn.active { background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); color: #000; border-color: transparent; font-weight: 600; }
+
+        .mobile-menu { display: none; position: fixed; top: 12px; left: 12px; z-index: 200; padding: 8px; background: var(--card-bg); border: 1px solid var(--glass-border);
+            border-radius: 8px; color: var(--neon-blue); font-size: 1.2rem; cursor: pointer; }
+
+        @media(max-width:768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; padding: 60px 16px 20px; }
+            .mobile-menu { display: block; }
+            .stats { grid-template-columns: 1fr 1fr; }
+        }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
-    <nav>
-        <div class="logo">NEXUS <span>Academy</span></div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="courses.html">Courses</a></li>
-            <li><a href="startup.html">Startup Resources</a></li>
-            <li><a href="community.html">Community</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">My Dashboard</a></li>
-        </ul>
-    </nav>
+    <button class="mobile-menu" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
 
-    <div class="page-head">
-        <span class="sec-label">Track</span>
-        <h1 class="sec-title">My Dashboard</h1>
-        <p class="sec-desc">Track your learning progress, saved courses, and community activity. All stored locally in your browser — no accounts needed.</p>
-    </div>
+    <aside class="sidebar">
+        <div class="sb-head">
+            <a href="index.html" class="sb-logo" style="text-decoration:none;">NEXUS <span>Academy</span></a>
+        </div>
+        <div class="sb-user">
+            <div class="sb-avatar" id="avatar">U</div>
+            <div class="sb-info">
+                <h4 id="uName">Guest</h4>
+                <p id="uEmail">Sign in to save progress</p>
+            </div>
+        </div>
+        <nav class="sb-nav">
+            <a class="sb-item active" onclick="show('dash')"><span class="icon">📊</span> Dashboard</a>
+            <a class="sb-item" onclick="show('courses')"><span class="icon">🎓</span> My Courses</a>
+            <a class="sb-item" onclick="show('notes')"><span class="icon">📝</span> Notes</a>
+            <a class="sb-item" onclick="show('quizzes')"><span class="icon">❓</span> Quizzes</a>
+            <a class="sb-item" onclick="show('projects')"><span class="icon">🛠️</span> Projects</a>
+        </nav>
+        <div class="sb-foot">
+            <a href="index.html" class="logout" style="text-decoration:none;display:inline-block;text-align:center;">🚪 Back to Site</a>
+        </div>
+    </aside>
 
-    <div class="dash-grid">
-        <div class="dash-card">
-            <div class="d-icon">📚</div>
-            <div class="d-title">Saved Courses</div>
-            <div class="d-desc">Courses you've started or saved</div>
-            <div class="d-count" id="cCount">0</div>
-            <ul class="list" id="cList"><li class="empty">No courses saved yet</li></ul>
-        </div>
-        <div class="dash-card">
-            <div class="d-icon">💬</div>
-            <div class="d-title">Forum Posts</div>
-            <div class="d-desc">Questions and ideas you've posted</div>
-            <div class="d-count" id="pCount">0</div>
-            <ul class="list" id="pList"><li class="empty">No posts yet</li></ul>
-        </div>
-        <div class="dash-card">
-            <div class="d-icon">🛠️</div>
-            <div class="d-title">Saved Tools</div>
-            <div class="d-desc">Startup tools and templates</div>
-            <div class="d-count" id="tCount">0</div>
-            <ul class="list" id="tList"><li class="empty">No tools saved yet</li></ul>
-        </div>
-        <div class="dash-card">
-            <div class="d-icon">🏆</div>
-            <div class="d-title">Projects Shared</div>
-            <div class="d-desc">Showcase items you've submitted</div>
-            <div class="d-count" id="prCount">0</div>
-            <ul class="list" id="prList"><li class="empty">No projects yet</li></ul>
-        </div>
-        <div class="dash-card" style="grid-column:1/-1;">
-            <div class="d-icon">🌙</div>
-            <div class="d-title">Theme Preference</div>
-            <div class="d-desc">Toggle between dark and light mode</div>
-            <button class="btn" style="margin-top:12px;" id="themeBtn" onclick="toggleTheme()">Toggle Theme</button>
-        </div>
-    </div>
+    <main class="main">
 
-    <footer class="footer">
-        <div class="f-grid">
-            <div><div class="f-logo">NEXUS <span>Academy</span></div><p class="f-desc">Free AI and tech education hub. Curating the best free resources from the world's top platforms.</p></div>
-            <div><div class="f-title">Learn</div><ul class="f-links"><li><a href="courses.html">Courses</a></li><li><a href="startup.html">Startup Tools</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
-            <div><div class="f-title">Community</div><ul class="f-links"><li><a href="community.html">Forum</a></li><li><a href="community.html#mentors">Mentors</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-            <div><div class="f-title">Info</div><ul class="f-links"><li><a href="about.html">About Us</a></li><li><a href="https://github.com/vaniarya965/nexus-ai-landing" target="_blank">GitHub</a></li></ul></div>
+        <!-- Dashboard -->
+        <div class="content active" id="dash">
+            <div style="margin-bottom: 24px;">
+                <span class="sec-label">Overview</span>
+                <h2 class="sec-title">Your Learning Dashboard</h2>
+                <p class="sec-desc">Track progress, scores, notes, and projects all in one place.</p>
+            </div>
+            <div class="stats">
+                <div class="stat"><div class="stat-num" id="sCourses">0</div><div class="stat-lbl">Courses Started</div></div>
+                <div class="stat"><div class="stat-num" id="sCompleted">0</div><div class="stat-lbl">Completed</div></div>
+                <div class="stat"><div class="stat-num" id="sNotes">0</div><div class="stat-lbl">Notes Saved</div></div>
+                <div class="stat"><div class="stat-num" id="sScore">0%</div><div class="stat-lbl">Avg Quiz Score</div></div>
+            </div>
+            <h3 style="font-family:'Orbitron';font-size:1rem;color:var(--neon-blue);margin-bottom:16px;">📌 Quick Links</h3>
+            <div class="cards-grid">
+                <a href="courses.html" class="card" style="text-decoration:none;color:inherit;">
+                    <div class="c-icon">🎓</div>
+                    <div class="c-title">Browse Courses</div>
+                    <div class="c-desc">Explore 50+ free AI, coding, and business courses.</div>
+                </a>
+                <a href="startup.html" class="card" style="text-decoration:none;color:inherit;">
+                    <div class="c-icon">🚀</div>
+                    <div class="c-title">Startup Tools</div>
+                    <div class="c-desc">Templates, pitch decks, and free business tools.</div>
+                </a>
+                <a href="community.html" class="card" style="text-decoration:none;color:inherit;">
+                    <div class="c-icon">💬</div>
+                    <div class="c-title">Community Forum</div>
+                    <div class="c-desc">Ask questions, share projects, find mentors.</div>
+                </a>
+                <a href="community.html#mentors" class="card" style="text-decoration:none;color:inherit;">
+                    <div class="c-icon">👨‍🏫</div>
+                    <div class="c-title">Find a Mentor</div>
+                    <div class="c-desc">Connect with AI engineers, founders, and marketers.</div>
+                </a>
+            </div>
+            <h3 style="font-family:'Orbitron';font-size:1rem;color:var(--neon-blue);margin-bottom:16px;">🏆 Recent Activity</h3>
+            <div id="activityLog"></div>
         </div>
-        <div class="f-bot">© 2026 NEXUS Academy. Built to help people learn for free.</div>
-    </footer>
 
-    <script src="nexus.js"></script>
+        <!-- My Courses -->
+        <div class="content" id="courses">
+            <span class="sec-label">Progress</span>
+            <h2 class="sec-title">My Courses</h2>
+            <p class="sec-desc">Click "Mark Complete" after finishing a course.</p>
+            <div class="cards-grid" id="courseList"></div>
+        </div>
+
+        <!-- Notes -->
+        <div class="content" id="notes">
+            <span class="sec-label">Study</span>
+            <h2 class="sec-title">My Notes</h2>
+            <p class="sec-desc">Write and save notes. They stay in your browser storage.</p>
+            <textarea class="notes-area" id="noteInput" placeholder="Type your notes here... These are saved to your browser and persist across sessions."></textarea>
+            <button class="save-btn" onclick="saveNote()">💾 Save Note</button>
+            <div style="margin-top: 24px;" id="noteList"></div>
+        </div>
+
+        <!-- Quizzes -->
+        <div class="content" id="quizzes">
+            <span class="sec-label">Test</span>
+            <h2 class="sec-title">Quizzes</h2>
+            <p class="sec-desc">Test your knowledge. Scores are saved automatically.</p>
+            <div id="quizArea">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="showQuizTab('list')">📋 Quiz List</button>
+                    <button class="tab-btn" onclick="showQuizTab('scores')">📊 My Scores</button>
+                </div>
+                <div id="quizList"></div>
+                <div id="scoreList" style="display:none;"></div>
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="content" id="projects">
+            <span class="sec-label">Build</span>
+            <h2 class="sec-title">My Projects</h2>
+            <p class="sec-desc">Mark projects as complete to track your portfolio.</p>
+            <div class="cards-grid" id="projectList"></div>
+        </div>
+    </main>
+
     <script>
-    (function() {
-        const courses = getProgress('courses');
-        const posts = getProgress('forum_posts');
-        const tools = getProgress('tools');
-        const projects = getProgress('projects');
-        function renderList(elId, items, label) {
-            const el = document.getElementById(elId);
-            if (!items || items.length === 0) { el.innerHTML = `<li class="empty">No ${label} yet</li>`; return; }
-            el.innerHTML = items.map(i => `<li><span>${i.title || i.name || i.id}</span><span style="color:var(--neon-blue);font-size:0.75rem;">${i.date ? new Date(i.date).toLocaleDateString() : ''}</span></li>`).join('');
-        }
-        document.getElementById('cCount').textContent = courses.length;
-        document.getElementById('pCount').textContent = posts.length;
-        document.getElementById('tCount').textContent = tools.length;
-        document.getElementById('prCount').textContent = projects.length;
-        renderList('cList', courses, 'courses saved');
-        renderList('pList', posts, 'posts');
-        renderList('tList', tools, 'tools saved');
-        renderList('prList', projects, 'projects shared');
-    })();
+    const db = {
+        courses: [
+            { id: 'ai1', title: 'AI For Everyone', icon: '🤖', desc: "Andrew Ng's free Coursera course. Understand AI strategy and build AI-powered companies.", meta: '🎓 Coursera | 🆓 Audit', link: 'https://www.coursera.org/learn/ai-for-everyone' },
+            { id: 'ai2', title: 'fast.ai Deep Learning', icon: '🧠', desc: 'Learn to build real AI models with Python. No PhD required.', meta: '🎓 fast.ai', link: 'https://www.fast.ai/' },
+            { id: 'coding1', title: 'Python Full Course', icon: '🐍', desc: 'freeCodeCamp 6-hour Python tutorial. 40M+ views.', meta: '▶ 6 Hours', link: 'https://www.youtube.com/watch?v=rfscVS0vtbw' },
+            { id: 'coding2', title: 'The Odin Project', icon: '🌐', desc: 'Free full-stack web dev. HTML, CSS, JS, React, Node.js.', meta: '🌐 Free Forever', link: 'https://www.theodinproject.com/' },
+            { id: 'startup1', title: 'How to Start a Startup', icon: '🚀', desc: "Y Combinator's legendary course. 20 lectures.", meta: '🎓 Y Combinator', link: 'https://www.startupschool.org/' },
+            { id: 'fin1', title: 'Financial Literacy', icon: '💰', desc: 'Khan Academy free course on personal finance and investing.', meta: '🎓 Khan Academy', link: 'https://www.khanacademy.org/college-careers-more/talks-and-interviews/talks-and-interviews-unit/conversations-with-sal-a-financial-literacy' },
+        ],
+        projects: [
+            { id: 'p1', title: 'Build Portfolio Website', desc: 'HTML/CSS + GitHub Pages. Deploy your first site.', diff: 'Beginner' },
+            { id: 'p2', title: 'AI Chatbot (Python)', desc: 'Build a chatbot with Python and OpenAI API.', diff: 'Intermediate' },
+            { id: 'p3', title: 'Data Analysis Project', desc: 'Analyze a Kaggle dataset with pandas + visualizations.', diff: 'Intermediate' },
+            { id: 'p4', title: 'Startup Landing Page', desc: 'Design and code a landing page for a fictional startup.', diff: 'Beginner' },
+            { id: 'p5', title: 'No-Code Automation', desc: 'Use Zapier or Make to automate 3 business tasks.', diff: 'Beginner' },
+        ],
+        quizzes: [
+            { id: 'q1', title: 'AI Basics Quiz', questions: [
+                { q: 'What does ML stand for?', options: ['Machine Learning','Meta Language','Main Loop','Media Layer'], correct: 0 },
+                { q: 'Which is NOT a type of AI?', options: ['Narrow AI','General AI','Super AI','Quantum AI'], correct: 3 },
+                { q: 'ChatGPT is built on what type of model?', options: ['CNN','RNN','Transformer','Decision Tree'], correct: 2 }
+            ]},
+            { id: 'q2', title: 'Python Basics Quiz', questions: [
+                { q: 'What is the output of print(2**3)?', options: ['6','8','9','Error'], correct: 1 },
+                { q: 'Which data type is mutable?', options: ['String','Tuple','List','Integer'], correct: 2 },
+                { q: 'What does def do in Python?', options: ['Delete file','Define function','Default value','Debug mode'], correct: 1 }
+            ]},
+            { id: 'q3', title: 'Startup Basics Quiz', questions: [
+                { q: 'What is an MVP?', options: ['Most Valuable Player','Minimum Viable Product','Maximum Value Proposition','Marketing Validation Plan'], correct: 1 },
+                { q: 'Which comes first: Problem or Solution?', options: ['Solution','Problem','Both equally','Neither'], correct: 1 },
+                { q: 'What does PMF stand for?', options: ['Product-Market Fit','Project Management Framework','Profit Margin Formula','Performance Monitoring Feature'], correct: 0 }
+            ]}
+        ]
+    };
+
+    let data = JSON.parse(localStorage.getItem('nexus_dash') || JSON.stringify({ started:[], completed:[], notes:[], scores:[], projects:[] }));
+    let curQuiz = null, curQ = 0, qScore = 0;
+
+    function saveData() { localStorage.setItem('nexus_dash', JSON.stringify(data)); updateStats(); }
+
+    function updateStats() {
+        document.getElementById('sCourses').textContent = data.started.length;
+        document.getElementById('sCompleted').textContent = data.completed.length;
+        document.getElementById('sNotes').textContent = data.notes.length;
+        const avg = data.scores.length ? Math.round(data.scores.reduce((a,s)=>a+s.score,0)/data.scores.length) : 0;
+        document.getElementById('sScore').textContent = avg + '%';
+
+        // Activity log
+        const acts = [];
+        if (data.completed.length) acts.push(`✅ Completed ${data.completed.length} course${data.completed.length>1?'s':''}`);
+        if (data.scores.length) { const best = Math.max(...data.scores.map(s=>s.score)); acts.push(`🧠 Best quiz score: ${best}%`); }
+        if (data.notes.length) acts.push(`📝 Saved ${data.notes.length} note${data.notes.length>1?'s':''}`);
+        if (!acts.length) acts.push('🚀 Welcome! Start a course to see activity here.');
+        document.getElementById('activityLog').innerHTML = acts.map(a=>`<div class="note-item"><p>${a}</p></div>`).join('');
+    }
+
+    function renderCourses() {
+        document.getElementById('courseList').innerHTML = db.courses.map(c => {
+            const started = data.started.includes(c.id);
+            const completed = data.completed.includes(c.id);
+            return `
+            <div class="card">
+                <div class="c-icon">${c.icon}</div>
+                <div class="c-title">${c.title}</div>
+                <div class="c-desc">${c.desc}</div>
+                <div class="c-meta">${c.meta}</div>
+                <div style="margin-top:12px;display:flex;gap:8px;">
+                    ${!started ? `<button class="save-btn" style="font-size:0.75rem;padding:8px 16px;" onclick="startCourse('${c.id}')">▶ Start</button>` : ''}
+                    ${started && !completed ? `<button class="save-btn" style="font-size:0.75rem;padding:8px 16px;background:var(--neon-green);" onclick="completeCourse('${c.id}')">✅ Mark Done</button>` : ''}
+                    ${completed ? '<span style="color:var(--neon-green);font-size:0.8rem;font-family:\'Orbitron\';">✅ Completed</span>' : ''}
+                    <a href="${c.link}" target="_blank" class="save-btn" style="font-size:0.75rem;padding:8px 16px;background:transparent;border:1px solid var(--glass-border);color:var(--neon-silver);text-decoration:none;">Open →</a>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function startCourse(id) { if (!data.started.includes(id)) { data.started.push(id); saveData(); renderCourses(); } }
+    function completeCourse(id) { if (!data.completed.includes(id)) { data.completed.push(id); saveData(); renderCourses(); } }
+
+    function saveNote() {
+        const t = document.getElementById('noteInput').value.trim();
+        if (!t) return;
+        data.notes.unshift({ id: Date.now(), text: t, date: new Date().toLocaleString() });
+        saveData(); document.getElementById('noteInput').value = ''; renderNotes();
+    }
+    function renderNotes() {
+        document.getElementById('noteList').innerHTML = data.notes.map(n => `
+            <div class="note-item">
+                <button class="note-del" onclick="delNote(${n.id})">🗑️</button>
+                <p>${n.text.replace(/\n/g,'<br>')}</p>
+                <div class="note-date">${n.date}</div>
+            </div>
+        `).join('') || '<p style="color:var(--neon-silver);opacity:0.6;">No saved notes yet. Write above and click Save!</p>';
+    }
+    function delNote(id) { data.notes = data.notes.filter(n=>n.id!==id); saveData(); renderNotes(); }
+
+    function renderProjects() {
+        document.getElementById('projectList').innerHTML = db.projects.map(p => {
+            const done = data.projects.includes(p.id);
+            return `
+            <div class="card">
+                <div class="c-icon">🛠️</div>
+                <div class="c-title">${p.title}</div>
+                <div class="c-desc">${p.desc}</div>
+                <div class="c-meta">${p.diff}</div>
+                ${done ? '<span style="color:var(--neon-green);font-size:0.8rem;font-family:\'Orbitron\';">✅ Completed</span>'
+                       : `<button class="save-btn" style="margin-top:10px;font-size:0.75rem;padding:8px 16px;" onclick="completeProject('${p.id}')">✅ Mark Complete</button>`}
+            </div>`;
+        }).join('');
+    }
+    function completeProject(id) { if (!data.projects.includes(id)) { data.projects.push(id); saveData(); renderProjects(); } }
+
+    function renderQuizList() {
+        document.getElementById('quizList').innerHTML = `
+            <div class="cards-grid">
+                ${db.quizzes.map((q,i) => {
+                    const s = data.scores.find(s=>s.id===q.id);
+                    return `<div class="card" onclick="startQuiz(${i})" style="cursor:pointer;">
+                        <div class="c-icon">❓</div>
+                        <div class="c-title">${q.title}</div>
+                        <div class="c-desc">${q.questions.length} questions</div>
+                        <div class="c-meta">${s ? 'Score: '+s.score+'%' : 'Not attempted'}</div>
+                    </div>`;
+                }).join('')}
+            </div>`;
+    }
+
+    function renderScoreList() {
+        document.getElementById('scoreList').innerHTML = data.scores.length ? data.scores.map(s => {
+            const q = db.quizzes.find(x=>x.id===s.id);
+            return `<div class="note-item"><p><strong>${q?.title || s.id}</strong> — ${s.score}%</p><div class="note-date">${s.date || 'Recently'}</div></div>`;
+        }).join('') : '<p style="color:var(--neon-silver);opacity:0.6;">No quiz scores yet. Take a quiz to see results here!</p>';
+    }
+
+    function startQuiz(i) {
+        curQuiz = db.quizzes[i]; curQ = 0; qScore = 0;
+        showQ();
+    }
+    function showQ() {
+        const q = curQuiz.questions[curQ];
+        document.getElementById('quizArea').innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <span style="font-family:'Orbitron';color:var(--neon-blue);font-size:0.9rem;">${curQuiz.title}</span>
+                <span style="color:var(--neon-silver);font-size:0.8rem;">Q ${curQ+1}/${curQuiz.questions.length}</span>
+            </div>
+            <div class="quiz-q">${q.q}</div>
+            ${q.options.map((o,idx)=>`<button class="quiz-opt" onclick="ans(${idx})">${o}</button>`).join('')}
+        `;
+    }
+    function ans(i) {
+        const q = curQuiz.questions[curQ];
+        const opts = document.querySelectorAll('.quiz-opt');
+        opts[q.correct].classList.add('correct');
+        if (i!==q.correct) opts[i].classList.add('wrong'); else qScore++;
+        setTimeout(()=>{ curQ++; curQ<curQuiz.questions.length ? showQ() : showResult(); }, 1000);
+    }
+    function showResult() {
+        const pct = Math.round((qScore/curQuiz.questions.length)*100);
+        const existing = data.scores.findIndex(s=>s.id===curQuiz.id);
+        if (existing>=0) data.scores[existing] = {id:curQuiz.id, score:pct, date: new Date().toLocaleString()};
+        else data.scores.push({id:curQuiz.id, score:pct, date: new Date().toLocaleString()});
+        saveData();
+        document.getElementById('quizArea').innerHTML = `
+            <div style="text-align:center;padding:30px;">
+                <div style="font-family:'Orbitron';font-size:2.5rem;font-weight:800;color:var(--neon-green);">${pct}%</div>
+                <p style="color:var(--neon-silver);margin:12px 0;">You got ${qScore} out of ${curQuiz.questions.length} correct!</p>
+                <button class="save-btn" onclick="resetQuiz()">Back to Quizzes</button>
+            </div>`;
+    }
+    function resetQuiz() {
+        document.getElementById('quizArea').innerHTML = `
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showQuizTab('list')">📋 Quiz List</button>
+                <button class="tab-btn" onclick="showQuizTab('scores')">📊 My Scores</button>
+            </div>
+            <div id="quizList"></div>
+            <div id="scoreList" style="display:none;"></div>
+        `;
+        renderQuizList(); renderScoreList();
+    }
+    function showQuizTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('quizList').style.display = tab==='list' ? 'block' : 'none';
+        document.getElementById('scoreList').style.display = tab==='scores' ? 'block' : 'none';
+    }
+
+    function show(id) {
+        document.querySelectorAll('.content').forEach(c=>c.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        if (id==='dash') updateStats();
+        if (id==='courses') renderCourses();
+        if (id==='notes') renderNotes();
+        if (id==='quizzes') resetQuiz();
+        if (id==='projects') renderProjects();
+    }
+
+    // Init
+    updateStats(); renderCourses(); renderNotes(); renderProjects(); renderQuizList(); renderScoreList();
+
+    // Nav scroll effect
+    const nav = document.querySelector('.sidebar');
     </script>
 </body>
 </html>

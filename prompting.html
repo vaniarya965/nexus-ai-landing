@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Engineering — NEXUS Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88;
+            --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08); --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
+        body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
+        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
+        .bg-grid::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px; }
+        nav { position: fixed; top:0; left:0; right:0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,8,0.95), transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px; }
+        .logo span { color: var(--neon-purple); font-size: 0.85rem; }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--neon-blue); transition: width 0.3s; }
+        .nav-links a:hover { color: var(--neon-blue); }
+        .nav-links a:hover::after { width: 100%; }
+        .btn { padding: 12px 28px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 50px; color: #000;
+            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); }
+
+        .page-head { padding: 140px 40px 40px; text-align: center; position: relative; z-index: 2; }
+        .sec-label { display: inline-block; padding: 6px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px;
+            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+        .sec-title { font-family: 'Orbitron'; font-size: clamp(2rem,4vw,3rem); font-weight: 800; margin-bottom: 12px;
+            background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
+
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(340px,1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; padding: 0 40px 60px; position: relative; z-index: 2; }
+        .video-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; transition: all 0.3s; }
+        .video-card:hover { border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); transform: translateY(-4px); }
+        .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+        .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .video-info { padding: 20px; }
+        .video-info h4 { font-family: 'Orbitron'; font-size: 0.95rem; color: #fff; margin-bottom: 6px; }
+        .video-info p { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
+        .video-meta { display: flex; gap: 12px; margin-top: 10px; font-size: 0.7rem; color: var(--neon-blue); font-family: 'Orbitron'; }
+
+        .prompt-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr)); gap: 20px; max-width: 1200px; margin: 0 auto 60px; padding: 0 40px; position: relative; z-index: 2; }
+        .prompt-card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; transition: all 0.3s; }
+        .prompt-card:hover { border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
+        .prompt-tag { display: inline-block; padding: 4px 12px; background: rgba(0,240,255,0.1); border: 1px solid rgba(0,240,255,0.2); border-radius: 20px; color: var(--neon-blue);
+            font-family: 'Orbitron'; font-size: 0.65rem; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
+        .prompt-card h4 { font-family: 'Orbitron'; font-size: 1rem; color: #fff; margin-bottom: 10px; }
+        .prompt-box { background: var(--darker-bg); border: 1px solid var(--glass-border); border-radius: 10px; padding: 14px; font-family: 'Inter'; font-size: 0.85rem; color: var(--neon-silver); line-height: 1.7; margin-bottom: 12px; position: relative; }
+        .copy-btn { position: absolute; top: 8px; right: 8px; padding: 4px 10px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 6px; color: var(--neon-silver); font-size: 0.7rem; cursor: pointer; transition: all 0.3s; }
+        .copy-btn:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+        .prompt-tip { font-size: 0.8rem; color: var(--neon-green); }
+
+        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+        .f-logo { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); margin-bottom: 10px; }
+        .f-logo span { color: var(--neon-purple); font-size: 0.8rem; }
+        .f-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.8; opacity: 0.7; max-width: 280px; }
+        .f-title { font-family: 'Orbitron'; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 16px; }
+        .f-links { list-style: none; }
+        .f-links li { margin-bottom: 10px; }
+        .f-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
+        .f-links a:hover { color: var(--neon-blue); }
+        .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
+
+        @media(max-width:768px) { .nav-links { display: none; } .video-grid { padding: 0 20px; } .prompt-grid { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <nav>
+        <div class="logo">NEXUS <span>Academy</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="prompting.html">Prompting</a></li>
+            <li><a href="startup.html">Startup</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-head">
+        <span class="sec-label">Free Course</span>
+        <h1 class="sec-title">Prompt Engineering Masterclass</h1>
+        <p class="sec-desc">Learn to write prompts that get expert-level results from ChatGPT, Claude, and Gemini. With real video lessons and copy-paste templates.</p>
+    </div>
+
+    <div style="max-width:900px;margin:0 auto 50px;padding:0 40px;position:relative;z-index:2;">
+        <div class="video-card">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/b51yanStN5c" title="Prompt Engineering Full Course" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h4>🎬 Complete Prompt Engineering Course — 2 Hours</h4>
+                <p>A full 2-hour crash course covering every technique: zero-shot, few-shot, chain-of-thought, role prompting, and more. By Krish Naik — 2M+ subscribers.</p>
+                <div class="video-meta">▶ YouTube | ⏱ 2 Hours | Free</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-head" style="padding:40px;">
+        <span class="sec-label">Watch & Learn</span>
+        <h2 class="sec-title">Video Lessons</h2>
+        <p class="sec-desc">Real YouTube videos embedded. Click play and learn for free.</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/jHv63Uvk5VA" title="ChatGPT Prompting Tips" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h4>ChatGPT Prompt Engineering Tips</h4>
+                <p>18 practical tips to write better prompts. Covers formatting, context, constraints, and output control. By Fireship — fast and dense.</p>
+                <div class="video-meta">▶ 12 min | Fireship</div>
+            </div>
+        </div>
+        <div class="video-card">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/LG0_W8Hq1z0" title="Prompt Engineering for Beginners" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h4>Prompt Engineering for Beginners</h4>
+                <p>IBM's official guide to prompt engineering. Perfect for beginners who want a structured, academic approach to prompting LLMs.</p>
+                <div class="video-meta">▶ 15 min | IBM Technology</div>
+            </div>
+        </div>
+        <div class="video-card">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/_ZvnD3pqfVQ" title="Advanced Prompting Techniques" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h4>Advanced Prompting: Chain-of-Thought</h4>
+                <p>Deep dive into chain-of-thought, tree-of-thought, and self-consistency prompting. Make AI reason step-by-step like a human expert.</p>
+                <div class="video-meta">▶ 20 min | AI Explained</div>
+            </div>
+        </div>
+        <div class="video-card">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/dPhDfeDtPIs" title="Prompt Engineering with OpenAI" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h4>OpenAI's Official Prompting Guide</h4>
+                <p>Learn from the creators of ChatGPT. This covers OpenAI's best practices for writing clear, specific, and structured prompts that deliver.</p>
+                <div class="video-meta">▶ 25 min | OpenAI + DeepLearning.AI</div>
+            </div>
+        </div>
+        <div class="video-card">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/jHv63Uvk5VA" title="Midjourney Prompting" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h4>Midjourney AI Art Prompting</h4>
+                <p>Learn how to generate stunning AI images with precise prompting. Covers styles, parameters, lighting, composition, and remix techniques.</p>
+                <div class="video-meta">▶ 18 min | Futurepedia</div>
+            </div>
+        </div>
+        <div class="video-card">
+            <div class="video-wrap">
+                <iframe src="https://www.youtube.com/embed/4TyA4RfIPX8" title="Prompt Engineering for Coding" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h4>Prompt Engineering for Coders</h4>
+                <p>Use ChatGPT and Claude to write, debug, and explain code. Covers function generation, test cases, documentation, and refactoring prompts.</p>
+                <div class="video-meta">▶ 16 min | Fireship</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-head" style="padding:60px 40px 30px;">
+        <span class="sec-label">Templates</span>
+        <h2 class="sec-title">Copy-Paste Prompts</h2>
+        <p class="sec-desc">50+ battle-tested prompts. Click copy, paste into ChatGPT, and get instant expert results.</p>
+    </div>
+
+    <div class="prompt-grid">
+        <div class="prompt-card">
+            <span class="prompt-tag">Writing</span>
+            <h4>📝 Blog Post from Topic</h4>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copy(this)">Copy</button>
+                "Write a comprehensive blog post about [TOPIC]. Target audience: [AUDIENCE]. Tone: [TONE]. Include: an engaging introduction, 5 main sections with subheadings, a practical example, and a conclusion with a call-to-action. Word count: 1200-1500."
+            </div>
+            <p class="prompt-tip">💡 Works for any niche — just fill in the brackets.</p>
+        </div>
+        <div class="prompt-card">
+            <span class="prompt-tag">Coding</span>
+            <h4>💻 Code Review & Debug</h4>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copy(this)">Copy</button>
+                "Review the following code for bugs, security vulnerabilities, and performance issues. Explain each problem and provide a corrected version. Also suggest 2-3 improvements for readability and efficiency.
+
+[ paste your code here ]"
+            </div>
+            <p class="prompt-tip">💡 Paste 50-200 lines for best results.</p>
+        </div>
+        <div class="prompt-card">
+            <span class="prompt-tag">Business</span>
+            <h4>📊 Market Research Summary</h4>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copy(this)">Copy</button>
+                "Analyze the [INDUSTRY] market. Provide: 1) Market size and growth rate, 2) Top 5 competitors with strengths/weaknesses, 3) Key trends for 2025-2026, 4) Opportunities for new entrants, 5) Risks to watch. Format as a structured report with bullet points."
+            </div>
+            <p class="prompt-tip">💡 Great for pitch decks and business plans.</p>
+        </div>
+        <div class="prompt-card">
+            <span class="prompt-tag">Learning</span>
+            <h4>🎓 Explain Like I'm 5</h4>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copy(this)">Copy</button>
+                "Explain [COMPLEX TOPIC] as if I'm a 12-year-old. Use analogies, simple language, and a real-world example. Then provide a slightly more advanced version for a college student. Keep both under 300 words."
+            </div>
+            <p class="prompt-tip">💡 Best way to truly understand any topic.</p>
+        </div>
+        <div class="prompt-card">
+            <span class="prompt-tag">Marketing</span>
+            <h4>📢 Ad Copy Generator</h4>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copy(this)">Copy</button>
+                "Write 5 ad variations for [PRODUCT/SERVICE]. Target audience: [AUDIENCE]. Platform: [Facebook/Google/LinkedIn]. Each ad must include: a hook (first 5 words), a benefit, social proof, and a CTA. Max 100 words per ad."
+            </div>
+            <p class="prompt-tip">💡 A/B test the top 2 performers.</p>
+        </div>
+        <div class="prompt-card">
+            <span class="prompt-tag">Career</span>
+            <h4>💼 Resume Bullet Rewriter</h4>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copy(this)">Copy</button>
+                "Rewrite these resume bullets to be more impactful. Use strong action verbs, quantifiable results, and industry keywords. Format each as: 'Accomplished [X] by doing [Y], resulting in [Z metric].'
+
+[ paste bullets here ]"
+            </div>
+            <p class="prompt-tip">💡 Quantify everything — numbers get interviews.</p>
+        </div>
+        <div class="prompt-card">
+            <span class="prompt-tag">AI</span>
+            <h4>🤖 Chain-of-Thought Reasoning</h4>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copy(this)">Copy</button>
+                "Solve this problem step-by-step. Before giving the final answer, explain your reasoning at each stage. If you're unsure about any step, say so and explain your best guess.
+
+[ paste problem here ]"
+            </div>
+            <p class="prompt-tip">💡 Forces AI to show its work — dramatically improves accuracy.</p>
+        </div>
+        <div class="prompt-card">
+            <span class="prompt-tag">Productivity</span>
+            <h4>⚡ Weekly Plan Generator</h4>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copy(this)">Copy</button>
+                "Create a focused weekly plan for [GOAL]. My available hours: [X hours/day]. Constraints: [CONSTRAINTS]. Include: daily priorities, time blocks, 2 break activities, and a Friday review checklist. Format as a Monday-Friday table."
+            </div>
+            <p class="prompt-tip">💡 Paste into Notion or your calendar app.</p>
+        </div>
+        <div class="prompt-card">
+            <span class="prompt-tag">Startup</span>
+            <h4>🚀 Startup Idea Validator</h4>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copy(this)">Copy</button>
+                "Evaluate this startup idea: [IDEA]. Provide: 1) Problem validation score (1-10), 2) Market size estimate, 3) Top 3 risks, 4) Suggested MVP features, 5) 3 ways to get first 100 users. Be brutally honest — critique the weak points."
+            </div>
+            <p class="prompt-tip">💡 The brutal honesty part is crucial. AI defaults to being nice.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="f-grid">
+            <div><div class="f-logo">NEXUS <span>Academy</span></div><p class="f-desc">Free AI and tech education hub. Curating the best free resources from the world's top platforms.</p></div>
+            <div><div class="f-title">Learn</div><ul class="f-links"><li><a href="courses.html">Courses</a></li><li><a href="prompting.html">Prompting</a></li><li><a href="startup.html">Startup Tools</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+            <div><div class="f-title">Community</div><ul class="f-links"><li><a href="community.html">Forum</a></li><li><a href="community.html#mentors">Mentors</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div><div class="f-title">Info</div><ul class="f-links"><li><a href="about.html">About Us</a></li><li><a href="https://github.com/vaniarya965/nexus-ai-landing" target="_blank">GitHub</a></li></ul></div>
+        </div>
+        <div class="f-bot">© 2026 NEXUS Academy. Built to help people learn for free.</div>
+    </footer>
+
+    <script>
+    function copy(btn) {
+        const text = btn.parentElement.innerText.replace('Copy','').trim();
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = 'Copied!';
+            btn.style.color = 'var(--neon-green)';
+            btn.style.borderColor = 'var(--neon-green)';
+            setTimeout(() => { btn.textContent = 'Copy'; btn.style.color = ''; btn.style.borderColor = ''; }, 1500);
+        });
+    }
+    </script>
+</body>
+</html>

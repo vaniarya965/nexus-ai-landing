@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — NEXUS Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --neon-blue: #00f0ff; --neon-purple: #b347ff; --neon-cyan: #00e5ff; --neon-silver: #c0c0d0; --neon-green: #00ff88;
+            --dark-bg: #050508; --darker-bg: #020204; --card-bg: rgba(10,10,20,0.7); --glass-bg: rgba(255,255,255,0.03); --glass-border: rgba(255,255,255,0.08);
+            --glow-blue: 0 0 20px rgba(0,240,255,0.4); }
+        body { font-family: 'Inter',sans-serif; background: var(--dark-bg); color: #fff; overflow-x: hidden; }
+        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.1; }
+        .bg-grid::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,240,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.15) 1px,transparent 1px); background-size: 60px 60px; }
+        nav { position: fixed; top:0; left:0; right:0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(5,5,8,0.95), transparent); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); }
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); letter-spacing: 3px; }
+        .logo span { color: var(--neon-purple); font-size: 0.85rem; }
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+        .nav-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; position: relative; transition: color 0.3s; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--neon-blue); transition: width 0.3s; }
+        .nav-links a:hover { color: var(--neon-blue); }
+        .nav-links a:hover::after { width: 100%; }
+        .btn { padding: 12px 28px; background: linear-gradient(135deg,var(--neon-blue),var(--neon-purple)); border: none; border-radius: 50px; color: #000;
+            font-family: 'Orbitron'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-sec { padding: 12px 28px; background: transparent; border: 1px solid var(--glass-border); border-radius: 50px; color: var(--neon-silver);
+            font-family: 'Orbitron'; font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s; }
+        .btn-sec:hover { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: var(--glow-blue); }
+
+        .page-head { padding: 140px 40px 40px; text-align: center; position: relative; z-index: 2; }
+        .sec-label { display: inline-block; padding: 6px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 50px;
+            font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+        .sec-title { font-family: 'Orbitron'; font-size: clamp(2rem,4vw,3rem); font-weight: 800; margin-bottom: 12px;
+            background: linear-gradient(135deg,#fff,var(--neon-blue),var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .sec-desc { color: var(--neon-silver); font-size: 1rem; max-width: 600px; margin: 0 auto; line-height: 1.7; opacity: 0.8; }
+
+        .contact-box { max-width: 600px; margin: 0 auto 40px; padding: 0 40px; position: relative; z-index: 2; }
+        .contact-inner { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px; backdrop-filter: blur(15px);
+            box-shadow: 0 0 80px rgba(0,240,255,0.08), 0 0 150px rgba(179,71,255,0.03); }
+        .field { margin-bottom: 20px; }
+        .field label { display: block; color: var(--neon-silver); font-size: 0.8rem; margin-bottom: 8px; font-family: 'Orbitron'; letter-spacing: 1px; }
+        .field input, .field textarea, .field select { width: 100%; padding: 14px 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px;
+            color: #fff; font-family: 'Inter'; font-size: 1rem; outline: none; transition: all 0.3s; }
+        .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--neon-blue); box-shadow: 0 0 20px rgba(0,240,255,0.1); }
+        .field input::placeholder, .field textarea::placeholder { color: var(--neon-silver); opacity: 0.5; }
+        .field textarea { min-height: 120px; resize: vertical; }
+        .field select option { background: var(--dark-bg); color: #fff; }
+        .success-msg { display: none; padding: 16px; background: rgba(0,255,136,0.1); border: 1px solid var(--neon-green); border-radius: 12px;
+            color: var(--neon-green); text-align: center; font-family: 'Orbitron'; letter-spacing: 1px; margin-top: 16px; }
+        .success-msg.show { display: block; }
+
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(250px,1fr)); gap: 20px; max-width: 900px; margin: 0 auto 60px; padding: 0 40px; position: relative; z-index: 2; }
+        .card { background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 28px; text-align: center; transition: all 0.3s; }
+        .card:hover { border-color: rgba(0,240,255,0.3); box-shadow: 0 15px 40px rgba(0,240,255,0.1); }
+        .c-icon { font-size: 2rem; margin-bottom: 12px; }
+        .c-title { font-family: 'Orbitron'; font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .c-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.6; opacity: 0.8; }
+
+        .footer { background: var(--darker-bg); border-top: 1px solid var(--glass-border); padding: 50px 40px 30px; position: relative; z-index: 2; }
+        .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+        .f-logo { font-family: 'Orbitron'; font-size: 1.3rem; font-weight: 800; color: var(--neon-blue); text-shadow: var(--glow-blue); margin-bottom: 10px; }
+        .f-logo span { color: var(--neon-purple); font-size: 0.8rem; }
+        .f-desc { color: var(--neon-silver); font-size: 0.85rem; line-height: 1.8; opacity: 0.7; max-width: 280px; }
+        .f-title { font-family: 'Orbitron'; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 2px; margin-bottom: 16px; }
+        .f-links { list-style: none; }
+        .f-links li { margin-bottom: 10px; }
+        .f-links a { color: var(--neon-silver); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
+        .f-links a:hover { color: var(--neon-blue); }
+        .f-bot { border-top: 1px solid var(--glass-border); padding-top: 20px; text-align: center; color: var(--neon-silver); font-size: 0.75rem; opacity: 0.5; }
+
+        @media(max-width:768px) { .nav-links { display: none; } .contact-box { padding: 0 20px; } .cards-grid { padding: 0 20px; } .f-grid { grid-template-columns: 1fr; gap: 30px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <nav>
+        <div class="logo">NEXUS <span>Academy</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="startup.html">Startup Resources</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="dashboard.html" class="btn" style="padding:10px 20px;font-size:0.75rem;">My Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-head">
+        <span class="sec-label">Reach Out</span>
+        <h1 class="sec-title">Contact Us</h1>
+        <p class="sec-desc">Questions? Suggestions? Found a broken link? Want to partner? We are here. Real email, real person.</p>
+    </div>
+
+    <div class="contact-box">
+        <div class="contact-inner">
+            <h3 style="font-family:'Orbitron';font-size:1.2rem;color:#fff;margin-bottom:4px;text-align:center;">Send a Message</h3>
+            <p style="color:var(--neon-silver);font-size:0.85rem;text-align:center;margin-bottom:24px;opacity:0.8;">Fill the form and we will reply within 24 hours.</p>
+            <form id="contactForm" onsubmit="return handleSubmit(event)">
+                <div class="field">
+                    <label>Name</label>
+                    <input type="text" id="cName" placeholder="Your name" required>
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input type="email" id="cEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="field">
+                    <label>Topic</label>
+                    <select id="cTopic" required>
+                        <option value="">Select...</option>
+                        <option value="course">Course Question</option>
+                        <option value="suggestion">Suggest a Resource</option>
+                        <option value="bug">Broken Link / Bug</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="mentor">Become a Mentor</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Message</label>
+                    <textarea id="cMessage" placeholder="How can we help you?" required></textarea>
+                </div>
+                <button type="submit" class="btn" style="width:100%;">📤 Send Message</button>
+                <div id="successMsg" class="success-msg">✅ Message sent! We will reply within 24 hours.</div>
+            </form>
+        </div>
+    </div>
+
+    <div class="cards-grid">
+        <div class="card">
+            <div class="c-icon">✉️</div>
+            <div class="c-title">Email</div>
+            <div class="c-desc">vanishree965@gmail.com</div>
+            <a href="mailto:vanishree965@gmail.com" class="btn-sec" style="margin-top:12px;display:inline-block;">Send Email</a>
+        </div>
+        <div class="card">
+            <div class="c-icon">💬</div>
+            <div class="c-title">Community Forum</div>
+            <div class="c-desc">Post publicly and get answers from mentors and peers.</div>
+            <a href="community.html" class="btn-sec" style="margin-top:12px;display:inline-block;">Open Forum</a>
+        </div>
+        <div class="card">
+            <div class="c-icon">👨‍🏫</div>
+            <div class="c-title">Mentor Request</div>
+            <div class="c-desc">Connect with AI engineers, founders, and marketers.</div>
+            <a href="community.html#mentors" class="btn-sec" style="margin-top:12px;display:inline-block;">Find Mentors</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="f-grid">
+            <div><div class="f-logo">NEXUS <span>Academy</span></div><p class="f-desc">Free AI and tech education hub. Curating the best free resources from the world's top platforms.</p></div>
+            <div><div class="f-title">Learn</div><ul class="f-links"><li><a href="courses.html">Courses</a></li><li><a href="startup.html">Startup Tools</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+            <div><div class="f-title">Community</div><ul class="f-links"><li><a href="community.html">Forum</a></li><li><a href="community.html#mentors">Mentors</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div><div class="f-title">Info</div><ul class="f-links"><li><a href="about.html">About Us</a></li><li><a href="https://github.com/vaniarya965/nexus-ai-landing" target="_blank">GitHub</a></li></ul></div>
+        </div>
+        <div class="f-bot">© 2026 NEXUS Academy. Built to help people learn for free.</div>
+    </footer>
+
+    <script>
+    function handleSubmit(e) {
+        e.preventDefault();
+        const name = document.getElementById('cName').value;
+        const email = document.getElementById('cEmail').value;
+        const topic = document.getElementById('cTopic').value;
+        const message = document.getElementById('cMessage').value;
+        const mailto = `mailto:vanishree965@gmail.com?subject=NEXUS Academy: ${topic.toUpperCase()} from ${name}&body=Name: ${name}%0AEmail: ${email}%0ATopic: ${topic}%0A%0AMessage:%0A${encodeURIComponent(message)}`;
+        window.location.href = mailto;
+        document.getElementById('successMsg').classList.add('show');
+        document.getElementById('contactForm').reset();
+        setTimeout(() => document.getElementById('successMsg').classList.remove('show'), 5000);
+        return false;
+    }
+    </script>
+</body>
+</html>
